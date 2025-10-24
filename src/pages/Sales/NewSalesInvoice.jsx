@@ -1,5 +1,5 @@
 // ======================================
-// New Sales Invoice - فاتورة مبيعات جديدة (مُحدَّث ليشبه المشتريات)
+// New Sales Invoice - فاتورة مبيعات جديدة (مُحسَّن ومضغوط)
 // ======================================
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -56,12 +56,10 @@ const NewSalesInvoice = () => {
   // معالجة اختصارات الكيبورد
   useEffect(() => {
     const handleKeyDown = (e) => {
-      // Ctrl+S للحفظ
       if (e.ctrlKey && e.key === 's') {
         e.preventDefault();
         handleSubmit(e);
       }
-      // Enter لإضافة صف جديد (عند التركيز في حقل الكمية الأخير)
       if (e.key === 'Enter' && e.target.name?.startsWith('mainQuantity-')) {
         const index = parseInt(e.target.name.split('-')[1]);
         if (index === items.length - 1) {
@@ -85,7 +83,6 @@ const NewSalesInvoice = () => {
   // البحث في العملاء
   const handleCustomerSearch = (value) => {
     setCustomerSearch(value);
-    // إظهار القائمة فقط عند وجود نص
     setShowCustomerSuggestions(value.trim().length > 0);
   };
 
@@ -95,7 +92,6 @@ const NewSalesInvoice = () => {
     setShowCustomerSuggestions(false);
   };
   
-  // إخفاء قائمة العملاء عند الخروج من الحقل
   const handleCustomerBlur = () => {
     setTimeout(() => {
       setShowCustomerSuggestions(false);
@@ -112,7 +108,6 @@ const NewSalesInvoice = () => {
     newSearches[index] = value;
     setProductSearches(newSearches);
 
-    // إظهار القائمة فقط عند وجود نص
     const newShowSuggestions = [...showProductSuggestions];
     newShowSuggestions[index] = value.trim().length > 0;
     setShowProductSuggestions(newShowSuggestions);
@@ -137,13 +132,11 @@ const NewSalesInvoice = () => {
     newShowSuggestions[index] = false;
     setShowProductSuggestions(newShowSuggestions);
 
-    // التركيز على حقل الكمية
     setTimeout(() => {
       quantityInputRefs.current[index]?.focus();
     }, 100);
   };
   
-  // إخفاء قائمة المنتجات عند الخروج من الحقل
   const handleProductBlur = (index) => {
     setTimeout(() => {
       const newShowSuggestions = [...showProductSuggestions];
@@ -164,7 +157,6 @@ const NewSalesInvoice = () => {
     newItems[index][field] = value;
     setItems(newItems);
     
-    // التحقق الفوري من الكميات والأسعار
     if (field === 'mainQuantity' || field === 'subQuantity') {
       const newQuantityErrors = [...quantityErrors];
       if (field === 'mainQuantity') {
@@ -197,7 +189,6 @@ const NewSalesInvoice = () => {
     setQuantityErrors([...quantityErrors, false]);
     setPriceErrors([...priceErrors, false]);
 
-    // التركيز على حقل المنتج الجديد
     setTimeout(() => {
       const lastIndex = items.length;
       productInputRefs.current[lastIndex]?.focus();
@@ -231,16 +222,16 @@ const NewSalesInvoice = () => {
     
     if (requestedQty > availableQty) {
       return (
-        <div className="mt-1 p-2 bg-red-50 border border-red-200 rounded text-red-700 text-xs">
-          ⚠️ الكمية المطلوبة ({requestedQty}) أكبر من المتاح ({availableQty})
+        <div className="mt-1 p-1 bg-red-50 border border-red-200 rounded text-red-600 text-xs">
+          ⚠️ المطلوب ({requestedQty}) > المتاح ({availableQty})
         </div>
       );
     }
     
     if (availableQty - requestedQty < 5 && availableQty - requestedQty > 0) {
       return (
-        <div className="mt-1 p-2 bg-yellow-50 border border-yellow-200 rounded text-yellow-700 text-xs">
-          ⚡ المخزون المتبقي: {availableQty - requestedQty}
+        <div className="mt-1 p-1 bg-yellow-50 border border-yellow-200 rounded text-yellow-600 text-xs">
+          ⚡ المتبقي: {availableQty - requestedQty}
         </div>
       );
     }
@@ -262,27 +253,22 @@ const NewSalesInvoice = () => {
   const validateForm = () => {
     const errors = {};
     
-    // التحقق من العميل
     if (!formData.customerId) {
       errors.customer = 'يجب اختيار العميل';
     }
     
-    // التحقق من التاريخ
     if (!formData.date) {
       errors.date = 'يجب إدخال تاريخ الفاتورة';
     }
     
-    // التحقق من المنتجات
     const newQuantityErrors = [];
     const newPriceErrors = [];
     
     items.forEach((item, index) => {
-      // التحقق من اختيار المنتج
       if (!item.productId) {
         errors[`product_${index}`] = 'يجب اختيار المنتج';
       }
       
-      // التحقق من الكمية
       if (item.mainQuantity < 0) {
         errors[`mainQuantity_${index}`] = 'الكمية الأساسية لا يمكن أن تكون سالبة';
         newQuantityErrors[index] = true;
@@ -293,7 +279,6 @@ const NewSalesInvoice = () => {
         newQuantityErrors[index] = false;
       }
       
-      // التحقق من السعر
       if (item.mainPrice < 0) {
         errors[`mainPrice_${index}`] = 'السعر الأساسي لا يمكن أن يكون سالباً';
         newPriceErrors[index] = true;
@@ -304,14 +289,12 @@ const NewSalesInvoice = () => {
         newPriceErrors[index] = false;
       }
       
-      // التحقق من السعر الفرعي
       if (item.subPrice < 0) {
         errors[`subPrice_${index}`] = 'السعر الفرعي لا يمكن أن يكون سالباً';
       } else if (item.subPrice === 0 && item.subQuantity > 0) {
         errors[`subPrice_${index}`] = 'يجب إدخال سعر فرعي عند وجود كمية فرعية';
       }
 
-      // التحقق من توفر المخزون
       const product = products.find(p => p.id === parseInt(item.productId));
       if (product) {
         const totalRequested = (item.mainQuantity || 0) + (item.subQuantity || 0);
@@ -327,7 +310,6 @@ const NewSalesInvoice = () => {
     setPriceErrors(newPriceErrors);
     setValidationErrors(errors);
     
-    // التحقق من المجموع الكلي
     const total = calculateTotal();
     if (total <= 0) {
       errors.total = 'المجموع الكلي يجب أن يكون أكبر من صفر';
@@ -339,11 +321,9 @@ const NewSalesInvoice = () => {
   const handleSubmit = (e, shouldPrint = false) => {
     if (e) e.preventDefault();
 
-    // التحقق الشامل من البيانات
     if (!validateForm()) {
       showError('يرجى تصحيح الأخطاء قبل حفظ الفاتورة');
       
-      // عرض أول خطأ
       const firstError = Object.values(validationErrors)[0];
       if (firstError) {
         setTimeout(() => showError(firstError), 500);
@@ -352,7 +332,6 @@ const NewSalesInvoice = () => {
     }
 
     try {
-      // تحويل البيانات للصيغة المتوافقة مع النظام
       const convertedItems = items.map(item => ({
         productId: item.productId,
         quantity: (item.mainQuantity || 0) + (item.subQuantity || 0),
@@ -371,7 +350,6 @@ const NewSalesInvoice = () => {
       showSuccess(`تم حفظ فاتورة المبيعات بنجاح! الإجمالي: ${calculateTotal().toFixed(2)} د.ع`);
 
       if (shouldPrint) {
-        // الطباعة المباشرة
         const customer = customers.find(c => c.id === parseInt(formData.customerId));
         printInvoiceDirectly({
           formData: newInvoice,
@@ -386,7 +364,6 @@ const NewSalesInvoice = () => {
 
       resetForm();
     } catch (error) {
-      // عرض رسالة الخطأ الفعلية للمستخدم
       showError(error.message || 'حدث خطأ في حفظ الفاتورة');
       console.error('خطأ في حفظ فاتورة المبيعات:', error);
     }
@@ -422,39 +399,11 @@ const NewSalesInvoice = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-4">
-      {/* الأزرار العلوية */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={resetForm}
-            className="flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors"
-            title="إعادة تعيين الفاتورة بالكامل"
-          >
-            <FaTrash /> إعادة تعيين
-          </button>
-          <button
-            type="button"
-            onClick={(e) => handleSubmit(e, false)}
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
-          >
-            <FaSave /> حفظ
-          </button>
-          <button
-            type="button"
-            onClick={(e) => handleSubmit(e, true)}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-          >
-            <FaPrint /> حفظ وطباعة
-          </button>
-        </div>
-      </div>
-
+    <div className="max-w-6xl mx-auto p-3">
       {/* البطاقة الرئيسية */}
-      <div className="bg-white rounded-lg shadow-md p-4">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         {/* الصف العلوي: معلومات الفاتورة */}
-        <div className="grid grid-cols-4 gap-3 mb-4 pb-4 border-b">
+        <div className="grid grid-cols-4 gap-2 p-3 bg-gray-50 border-b">
           {/* العميل */}
           <div className="relative">
             <div className="relative">
@@ -464,22 +413,22 @@ const NewSalesInvoice = () => {
                 value={customerSearch}
                 onChange={(e) => handleCustomerSearch(e.target.value)}
                 onBlur={handleCustomerBlur}
-                className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-transparent"
                 placeholder="ابحث عن العميل..."
               />
-              <FaSearch className="absolute left-2 top-2.5 text-gray-400 text-xs" />
+              <FaSearch className="absolute left-2 top-1.5 text-gray-400 text-xs" />
             </div>
             {showCustomerSuggestions && customerSearch.trim().length > 0 && filteredCustomers.length > 0 && (
-              <div className="absolute z-[9999] w-full mt-1 bg-white border-2 border-blue-400 rounded-lg shadow-xl max-h-56 overflow-y-auto">
+              <div className="absolute z-[9999] w-full mt-1 bg-white border border-blue-300 rounded shadow-lg max-h-48 overflow-y-auto">
                 {filteredCustomers.map((customer) => (
                   <div
                     key={customer.id}
                     onClick={() => selectCustomer(customer)}
-                    className="px-4 py-2.5 hover:bg-blue-100 cursor-pointer border-b last:border-b-0 transition-colors"
+                    className="px-3 py-2 hover:bg-blue-50 cursor-pointer border-b last:border-b-0 transition-colors text-xs"
                   >
                     <div className="flex justify-between items-center">
-                      <span className="font-semibold text-sm text-gray-800">{customer.name}</span>
-                      <span className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">{customer.phone}</span>
+                      <span className="font-medium text-gray-800">{customer.name}</span>
+                      <span className="text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded text-2xs">{customer.phone}</span>
                     </div>
                   </div>
                 ))}
@@ -493,9 +442,9 @@ const NewSalesInvoice = () => {
               name="paymentType"
               value={formData.paymentType}
               onChange={handleChange}
-              className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-blue-500"
             >
-              <option value="main">اختر نوع الفاتورة</option>
+              <option value="main">نوع الفاتورة</option>
               <option value="cash">نقدي</option>
               <option value="deferred">آجل</option>
               <option value="partial">جزئي</option>
@@ -508,9 +457,9 @@ const NewSalesInvoice = () => {
               name="agentType"
               value={formData.agentType}
               onChange={handleChange}
-              className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-blue-500"
             >
-              <option value="main">اختر وكيل</option>
+              <option value="main">الوكيل</option>
               <option value="none">بدون</option>
               <option value="invoice">فاتورة</option>
               <option value="carton">كرتونة</option>
@@ -518,44 +467,44 @@ const NewSalesInvoice = () => {
           </div>
 
           {/* التاريخ والوقت */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-1">
             <input
               type="date"
               name="date"
               value={formData.date}
               onChange={handleChange}
-              className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-blue-500"
             />
             <input
               type="time"
               name="time"
               value={formData.time}
               onChange={handleChange}
-              className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-blue-500"
             />
           </div>
         </div>
 
         {/* جدول المنتجات */}
-        <div className="mb-4 relative">
+        <div className="relative">
           <div className="overflow-x-auto overflow-y-visible">
-            <table className="w-full text-sm">
+            <table className="w-full text-xs">
               <thead>
                 <tr className="bg-gray-100 border-b">
-                  <th className="px-2 py-2 text-right text-xs font-semibold text-gray-700">المنتج</th>
-                  <th className="px-2 py-2 text-center text-xs font-semibold text-gray-700 w-20">كمية أساسية</th>
-                  <th className="px-2 py-2 text-center text-xs font-semibold text-gray-700 w-20">كمية فرعية</th>
-                  <th className="px-2 py-2 text-center text-xs font-semibold text-gray-700 w-24">سعر أساسي</th>
-                  <th className="px-2 py-2 text-center text-xs font-semibold text-gray-700 w-24">سعر فرعي</th>
-                  <th className="px-2 py-2 text-center text-xs font-semibold text-gray-700 w-24">الإجمالي</th>
-                  <th className="px-2 py-2 text-center text-xs font-semibold text-gray-700 w-16">حذف</th>
+                  <th className="px-2 py-1.5 text-right font-medium text-gray-700">المنتج</th>
+                  <th className="px-1 py-1.5 text-center font-medium text-gray-700 w-16">كمية أساسية</th>
+                  <th className="px-1 py-1.5 text-center font-medium text-gray-700 w-16">كمية فرعية</th>
+                  <th className="px-1 py-1.5 text-center font-medium text-gray-700 w-20">سعر أساسي</th>
+                  <th className="px-1 py-1.5 text-center font-medium text-gray-700 w-20">سعر فرعي</th>
+                  <th className="px-1 py-1.5 text-center font-medium text-gray-700 w-20">الإجمالي</th>
+                  <th className="px-1 py-1.5 text-center font-medium text-gray-700 w-12">حذف</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {items.map((item, index) => (
                   <tr key={index} className="hover:bg-gray-50">
                     {/* المنتج */}
-                    <td className="px-2 py-2 static">
+                    <td className="px-2 py-1.5 static">
                       <div className="relative z-[10]">
                         <input
                           ref={(el) => (productInputRefs.current[index] = el)}
@@ -563,27 +512,27 @@ const NewSalesInvoice = () => {
                           value={productSearches[index] || ''}
                           onChange={(e) => handleProductSearch(index, e.target.value)}
                           onBlur={() => handleProductBlur(index)}
-                          className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-blue-500"
                           placeholder="ابحث عن المنتج..."
                         />
-                        <FaSearch className="absolute left-2 top-2.5 text-gray-400 text-xs" />
+                        <FaSearch className="absolute left-2 top-1.5 text-gray-400 text-2xs" />
                       </div>
                       {showProductSuggestions[index] && productSearches[index]?.trim().length > 0 && getFilteredProducts(index).length > 0 && (
-                        <div className="absolute z-[9999] left-0 w-full mt-1 bg-white border-2 border-blue-400 rounded-lg shadow-2xl max-h-64 overflow-y-auto">
+                        <div className="absolute z-[9999] left-0 w-full mt-0.5 bg-white border border-blue-300 rounded shadow-lg max-h-48 overflow-y-auto">
                           {getFilteredProducts(index).map((product) => {
                             const warehouse = warehouses.find(w => w.id === product.warehouseId);
                             return (
                               <div
                                 key={product.id}
                                 onClick={() => selectProduct(index, product)}
-                                className="px-4 py-2.5 hover:bg-blue-100 cursor-pointer border-b last:border-b-0 transition-colors"
+                                className="px-2 py-1.5 hover:bg-blue-50 cursor-pointer border-b last:border-b-0 transition-colors text-xs"
                               >
                                 <div className="flex justify-between items-center">
                                   <div className="flex-1">
-                                    <span className="font-semibold text-sm text-gray-800">{product.name}</span>
-                                    <span className="text-xs text-gray-600 mr-2">({warehouse?.name || 'غير محدد'} - {product.category})</span>
+                                    <span className="font-medium text-gray-800">{product.name}</span>
+                                    <span className="text-gray-600 mr-1 text-2xs">({warehouse?.name || 'غير محدد'})</span>
                                   </div>
-                                  <span className="text-xs font-bold text-green-700 bg-green-100 px-2 py-1 rounded">المخزون: {product.mainQuantity || 0}</span>
+                                  <span className="font-medium text-green-700 bg-green-100 px-1 py-0.5 rounded text-2xs">المخزون: {product.mainQuantity || 0}</span>
                                 </div>
                               </div>
                             );
@@ -595,14 +544,14 @@ const NewSalesInvoice = () => {
                     </td>
 
                     {/* الكمية الأساسية */}
-                    <td className="px-2 py-2">
+                    <td className="px-1 py-1.5">
                       <input
                         ref={(el) => (quantityInputRefs.current[index] = el)}
                         type="number"
                         name={`mainQuantity-${index}`}
                         value={item.mainQuantity}
                         onChange={(e) => handleItemChange(index, 'mainQuantity', parseInt(e.target.value) || 0)}
-                        className={`w-full px-2 py-1.5 text-sm text-center border rounded-md focus:ring-2 focus:ring-blue-500 ${
+                        className={`w-full px-1 py-1 text-xs text-center border rounded focus:ring-1 focus:ring-blue-500 ${
                           quantityErrors[index] ? 'border-red-500 bg-red-50' : 'border-gray-300'
                         }`}
                         min="0"
@@ -610,24 +559,24 @@ const NewSalesInvoice = () => {
                     </td>
 
                     {/* الكمية الفرعية */}
-                    <td className="px-2 py-2">
+                    <td className="px-1 py-1.5">
                       <input
                         type="number"
                         value={item.subQuantity}
                         onChange={(e) => handleItemChange(index, 'subQuantity', parseInt(e.target.value) || 0)}
-                        className="w-full px-2 py-1.5 text-sm text-center border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-1 py-1 text-xs text-center border border-gray-300 rounded focus:ring-1 focus:ring-blue-500"
                         min="0"
                       />
                     </td>
 
                     {/* السعر الأساسي */}
-                    <td className="px-2 py-2">
+                    <td className="px-1 py-1.5">
                       <input
                         type="number"
                         step="0.01"
                         value={item.mainPrice}
                         onChange={(e) => handleItemChange(index, 'mainPrice', parseFloat(e.target.value) || 0)}
-                        className={`w-full px-2 py-1.5 text-sm text-center border rounded-md focus:ring-2 focus:ring-blue-500 ${
+                        className={`w-full px-1 py-1 text-xs text-center border rounded focus:ring-1 focus:ring-blue-500 ${
                           priceErrors[index] ? 'border-red-500 bg-red-50' : 'border-gray-300'
                         }`}
                         min="0"
@@ -635,31 +584,31 @@ const NewSalesInvoice = () => {
                     </td>
 
                     {/* السعر الفرعي */}
-                    <td className="px-2 py-2">
+                    <td className="px-1 py-1.5">
                       <input
                         type="number"
                         step="0.01"
                         value={item.subPrice}
                         onChange={(e) => handleItemChange(index, 'subPrice', parseFloat(e.target.value) || 0)}
-                        className="w-full px-2 py-1.5 text-sm text-center border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-1 py-1 text-xs text-center border border-gray-300 rounded focus:ring-1 focus:ring-blue-500"
                         min="0"
                       />
                     </td>
 
                     {/* الإجمالي */}
-                    <td className="px-2 py-2 text-center">
-                      <span className="font-semibold text-blue-600">
+                    <td className="px-1 py-1.5 text-center">
+                      <span className="font-semibold text-blue-600 text-xs">
                         {calculateItemTotal(item).toFixed(2)}
                       </span>
                     </td>
 
                     {/* حذف */}
-                    <td className="px-2 py-2 text-center">
+                    <td className="px-1 py-1.5 text-center">
                       <button
                         type="button"
                         onClick={() => removeItem(index)}
                         disabled={items.length === 1}
-                        className="text-red-600 hover:text-red-800 disabled:text-gray-400 disabled:cursor-not-allowed"
+                        className="text-red-600 hover:text-red-800 disabled:text-gray-400 disabled:cursor-not-allowed text-xs"
                       >
                         <FaTrash />
                       </button>
@@ -675,69 +624,73 @@ const NewSalesInvoice = () => {
         <button
           type="button"
           onClick={addItem}
-          className="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors text-sm font-medium"
+          className="w-full py-1.5 border border-dashed border-gray-300 rounded text-gray-600 hover:border-blue-500 hover:text-blue-600 transition-colors text-xs font-medium mx-3 my-2"
         >
           + إضافة منتج جديد (Enter)
         </button>
 
-        {/* الجزء السفلي - تم إصلاح التخطيط هنا */}
-        <div className="mt-4 pt-4 border-t">
-          {/* الصف الأول: المجموع الكلي فقط */}
-          <div className="mb-4">
-            <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-5 rounded-lg border-2 border-blue-300 shadow-md">
-              <div className="flex justify-between items-center">
-                <span className="text-base font-bold text-gray-700">المجموع الكلي:</span>
-                <span className="text-xl font-bold text-blue-700">{calculateTotal().toFixed(2)} د.ع</span>
-              </div>
-              <div className="text-xs text-gray-600 mt-2 text-right">
-                عدد المنتجات: {items.length}
-              </div>
-            </div>
-          </div>
-
-          {/* الصف الثاني: الملاحظات والأزرار */}
-          <div className="grid grid-cols-2 gap-4">
-            {/* الملاحظات */}
+        {/* الجزء السفلي - مصفوفة من 3 أعمدة */}
+        <div className="p-3 border-t bg-gray-50">
+          <div className="grid grid-cols-3 gap-3 items-start">
+            {/* العمود الأول: الملاحظات */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">ملاحظات</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1">ملاحظات</label>
               <textarea
                 name="notes"
                 value={formData.notes}
                 onChange={handleChange}
                 rows="2"
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                placeholder="أدخل ملاحظات إضافية..."
+                className="w-full px-2 py-1 text-xs border border-gray-300 rounded focus:ring-1 focus:ring-blue-500"
+                placeholder="ملاحظات إضافية..."
               />
             </div>
 
-            {/* الأزرار */}
-            <div className="flex flex-col justify-end gap-2">
-              <div className="flex gap-2 justify-end">
-                <button
-                  type="button"
-                  onClick={(e) => handleSubmit(e, false)}
-                  className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors flex-1 justify-center"
-                >
-                  <FaSave /> حفظ
-                </button>
-                <button
-                  type="button"
-                  onClick={(e) => handleSubmit(e, true)}
-                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex-1 justify-center"
-                >
-                  <FaPrint /> حفظ وطباعة
-                </button>
+            {/* العمود الثاني: الأزرار */}
+            <div className="flex flex-col gap-1.5 justify-center items-center">
+              <button
+                type="button"
+                onClick={resetForm}
+                className="flex items-center gap-1.5 bg-gray-500 hover:bg-gray-600 text-white px-3 py-1.5 rounded text-xs transition-colors w-full justify-center"
+              >
+                <FaTrash className="text-xs" /> إعادة تعيين
+              </button>
+              <button
+                type="button"
+                onClick={(e) => handleSubmit(e, false)}
+                className="flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded text-xs transition-colors w-full justify-center"
+              >
+                <FaSave className="text-xs" /> حفظ
+              </button>
+              <button
+                type="button"
+                onClick={(e) => handleSubmit(e, true)}
+                className="flex items-center gap-1.5 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded text-xs transition-colors w-full justify-center"
+              >
+                <FaPrint className="text-xs" /> حفظ وطباعة
+              </button>
+            </div>
+
+            {/* العمود الثالث: المجموع */}
+            <div className="flex flex-col justify-center">
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-3 rounded border border-blue-200 shadow-sm">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-bold text-gray-700">المجموع الكلي:</span>
+                  <span className="text-lg font-bold text-blue-700">{calculateTotal().toFixed(2)} د.ع</span>
+                </div>
+                <div className="text-2xs text-gray-600 mt-1 text-right">
+                  عدد المنتجات: {items.length}
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* اختصارات الكيبورد */}
-        <div className="mt-4 pt-3 border-t text-xs text-gray-500 text-center">
-          <span className="inline-block mx-2">💡 اختصارات: </span>
-          <span className="inline-block mx-2">Ctrl+S = حفظ</span>
-          <span className="inline-block mx-2">Enter = صف جديد</span>
-          <span className="inline-block mx-2">Tab = التنقل</span>
+        <div className="px-3 py-2 border-t text-2xs text-gray-500 text-center bg-gray-50">
+          <span className="inline-block mx-1">💡 اختصارات: </span>
+          <span className="inline-block mx-1">Ctrl+S = حفظ</span>
+          <span className="inline-block mx-1">Enter = صف جديد</span>
+          <span className="inline-block mx-1">Tab = التنقل</span>
         </div>
       </div>
     </div>
