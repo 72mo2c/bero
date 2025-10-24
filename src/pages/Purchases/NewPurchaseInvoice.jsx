@@ -370,7 +370,6 @@ const NewPurchaseInvoice = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4">
-      
       {/* البطاقة الرئيسية */}
       <div className="bg-white rounded-lg shadow-md p-4">
         {/* الصف العلوي: معلومات الفاتورة */}
@@ -380,7 +379,6 @@ const NewPurchaseInvoice = () => {
             <div className="relative">
               <input
                 ref={supplierInputRef}
-                
                 type="text"
                 value={supplierSearch}
                 onChange={(e) => handleSupplierSearch(e.target.value)}
@@ -590,21 +588,10 @@ const NewPurchaseInvoice = () => {
 
         {/* الجزء السفلي */}
         <div className="mt-4 pt-4 border-t">
-          {/* المجموع */}
-            <div className=" w-full flex-col justify-center">
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border-2 border-blue-300 shadow-md">
-                <div className=" justify-between items-center">
-                  <span className="text-base font-bold text-gray-700">المجموع الكلي:</span>
-                  <span className="text-xl font-bold text-blue-700">{calculateTotal().toFixed(2)} ج.م</span>
-                </div>
-                <div className="text-xs text-gray-600 mt-2 text-right">
-                  عدد المنتجات: {items.length}
-                </div>
-              </div>
-            </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 items-start">
             {/* ملاحظات */}
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">ملاحظات</label>
               <textarea
                 name="notes"
                 value={formData.notes}
@@ -614,31 +601,47 @@ const NewPurchaseInvoice = () => {
                 placeholder="أدخل ملاحظات إضافية..."
               />
             </div>
-            {/* الأزرار */}
-            <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={resetForm}
-            className="flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors"
-            title="إعادة تعيين الفاتورة بالكامل"
-          >
-            <FaTrash /> إعادة تعيين
-          </button>
-          <button
-            type="button"
-            onClick={(e) => handleSubmit(e, false)}
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
-          >
-            <FaSave /> حفظ
-          </button>
-          <button
-            type="button"
-            onClick={(e) => handleSubmit(e, true)}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-          >
-            <FaPrint /> حفظ وطباعة
-          </button>
+
+            {/* المجموع - تم تصغيره وتحسينه */}
+            <div className="flex flex-col justify-center">
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-semibold text-gray-700">المجموع الكلي:</span>
+                  <span className="text-lg font-bold text-blue-700">{calculateTotal().toFixed(2)} ج.م</span>
+                </div>
+                <div className="text-xs text-gray-500 text-center">
+                  عدد المنتجات: {items.length}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* الأزرار - تم نقلها إلى الأسفل */}
+        <div className="mt-6 pt-4 border-t">
+          <div className="flex justify-center gap-3">
+            <button
+              type="button"
+              onClick={resetForm}
+              className="flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-colors font-medium"
+              title="إعادة تعيين الفاتورة بالكامل"
+            >
+              <FaTrash /> إعادة تعيين
+            </button>
+            <button
+              type="button"
+              onClick={(e) => handleSubmit(e, false)}
+              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors font-medium"
+            >
+              <FaSave /> حفظ الفاتورة
+            </button>
+            <button
+              type="button"
+              onClick={(e) => handleSubmit(e, true)}
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors font-medium"
+            >
+              <FaPrint /> حفظ وطباعة
+            </button>
           </div>
         </div>
 
