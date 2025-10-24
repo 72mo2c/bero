@@ -323,7 +323,7 @@ const NewSalesInvoice = () => {
               onChange={(e) => setFormData({ ...formData, agentType: e.target.value })}
               className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
-              <option value="main">اخنر وكيل</option>
+              <option value="main">اختر وكيل</option>
               <option value="none">بدون</option>
               <option value="invoice">فاتورة</option>
               <option value="carton">كرتونة</option>
@@ -344,6 +344,7 @@ const NewSalesInvoice = () => {
           <div>
             <input
               type="time"
+              disabled='hidden'
               value={formData.time}
               onChange={(e) => setFormData({ ...formData, time: e.target.value })}
               className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -495,8 +496,7 @@ const NewSalesInvoice = () => {
         {/* أزرار الحفظ والطباعة */}
       <div className="flex justify-between items-center mb-4">
          {/* ملاحظات */}
-        <div className="p-4 border-t">
-          <label className="block text-sm font-medium text-gray-700 mb-2">ملاحظات</label>
+        <div className="p-4 border-t flex-1">
           <textarea
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
