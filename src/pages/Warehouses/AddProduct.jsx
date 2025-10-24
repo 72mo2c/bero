@@ -5,9 +5,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
 import { useNotification } from '../../context/NotificationContext';
+import { useNavigate } from 'react-router-dom';
 import { FaBox, FaSave, FaCheckCircle, FaTimes, FaWarehouse, FaTags, FaDollarSign, FaCubes, FaBarcode, FaUndo } from 'react-icons/fa';
 
 const AddProduct = () => {
+  const navigate = useNavigate();
   const { warehouses, categories, addProduct } = useData();
   const { showSuccess, showError } = useNotification();
   
@@ -238,7 +240,7 @@ const AddProduct = () => {
                 onClick={() => {
                   setShowSuccessModal(false);
                   // توجيه المستخدم إلى صفحة عرض البضائع
-                  window.location.href = '/warehouses/products';
+                  navigate('/warehouses/products');
                 }}
                 className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors font-semibold"
               >
