@@ -129,7 +129,7 @@ export const NotificationProvider = ({ children }) => {
   };
 
   return (
-    <NotificationContext.Provider value={value}>
+    <NotificationContext.Provider value={value} style={{ zIndex: 1000 }}>
       {children}
     </NotificationContext.Provider>
   );

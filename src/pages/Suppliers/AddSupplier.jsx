@@ -103,7 +103,7 @@ const AddSupplier = () => {
               name="phone1"
               value={formData.phone1}
               onChange={handleChange}
-              placeholder="+964 XXX XXX XXXX"
+              placeholder="+20 XXX XXX XXXX"
               required
             />
 
@@ -112,17 +112,10 @@ const AddSupplier = () => {
               name="phone2"
               value={formData.phone2}
               onChange={handleChange}
-              placeholder="+964 XXX XXX XXXX"
+              placeholder="+20 XXX XXX XXXX"
             />
 
-            <Input
-              label="البريد الإلكتروني (اختياري)"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="example@email.com"
-            />
+            
           </div>
 
           <div>
