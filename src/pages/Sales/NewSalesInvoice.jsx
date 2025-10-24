@@ -481,7 +481,6 @@ const NewSalesInvoice = () => {
             + إضافة منتج جديد
           </button>
         </div>
-
         {/* المجاميع */}
         <div className="p-4 bg-gray-50 border-t">
           <div className="flex justify-between items-center max-w-md ml-auto">
