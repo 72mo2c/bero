@@ -20,7 +20,7 @@ const NewSalesInvoice = () => {
     customerId: '',
     date: new Date().toISOString().split('T')[0],
     time: new Date().toTimeString().slice(0, 5),
-    paymentType: 'cash',
+    paymentType: 'main',
     agentType: 'main',
     notes: ''
   });
@@ -241,7 +241,7 @@ const NewSalesInvoice = () => {
       customerId: '',
       date: new Date().toISOString().split('T')[0],
       time: new Date().toTimeString().slice(0, 5),
-      paymentType: 'cash',
+      paymentType: 'main',
       agentType: 'main',
       notes: ''
     });
@@ -270,6 +270,9 @@ const NewSalesInvoice = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
+
+      
+
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         {/* معلومات الرأس */}
         <div className="grid grid-cols-5 gap-3 p-4 bg-gray-50 border-b">
@@ -306,6 +309,7 @@ const NewSalesInvoice = () => {
               onChange={(e) => setFormData({ ...formData, paymentType: e.target.value })}
               className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
+              <option value="main">اختر نوع الفاتورة</option>
               <option value="cash">نقدي</option>
               <option value="deferred">آجل</option>
               <option value="partial">جزئي</option>
@@ -319,7 +323,7 @@ const NewSalesInvoice = () => {
               onChange={(e) => setFormData({ ...formData, agentType: e.target.value })}
               className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
-              <option value="main">اختر الوكيل</option>
+              <option value="main">اخنر وكيل</option>
               <option value="none">بدون</option>
               <option value="invoice">فاتورة</option>
               <option value="carton">كرتونة</option>
@@ -330,7 +334,6 @@ const NewSalesInvoice = () => {
           <div>
             <input
               type="date"
-              placeholder='التاريخ'
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
               className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -340,7 +343,6 @@ const NewSalesInvoice = () => {
           {/* الوقت */}
           <div>
             <input
-              placeholder='الوقت'
               type="time"
               value={formData.time}
               onChange={(e) => setFormData({ ...formData, time: e.target.value })}
@@ -452,7 +454,7 @@ const NewSalesInvoice = () => {
 
                   {/* الإجمالي */}
                   <td className="px-3 py-2 text-center font-bold text-green-600">
-                    {calculateLineTotal(item).toFixed(2)} ج.م
+                    {calculateLineTotal(item).toFixed(2)} د.ع
                   </td>
 
                   {/* حذف */}
@@ -473,7 +475,7 @@ const NewSalesInvoice = () => {
         </div>
 
         {/* زر إضافة منتج */}
-        <div className="px-4 py-3 bg-gray-50 border-t z-0">
+        <div className="px-4 py-3 z-[999] bg-gray-50 border-t">
           <button
             type="button"
             onClick={addNewItem}
@@ -482,6 +484,7 @@ const NewSalesInvoice = () => {
             + إضافة منتج جديد
           </button>
         </div>
+
         {/* المجاميع */}
         <div className="p-4 bg-gray-50 border-t">
           <div className="flex justify-between items-center max-w-md ml-auto">
@@ -489,10 +492,9 @@ const NewSalesInvoice = () => {
             <div className="text-2xl font-bold text-green-600">{calculateGrandTotal().toFixed(2)} ج.م</div>
           </div>
         </div>
-
-               {/* الجزء السفلي */}
-        
-            {/* ملاحظات */}
+        {/* أزرار الحفظ والطباعة */}
+      <div className="flex justify-between items-center mb-4">
+         {/* ملاحظات */}
         <div className="p-4 border-t">
           <label className="block text-sm font-medium text-gray-700 mb-2">ملاحظات</label>
           <textarea
@@ -503,14 +505,13 @@ const NewSalesInvoice = () => {
             placeholder="أدخل ملاحظات إضافية..."
           />
         </div>
-            {/* أزرار الحفظ والطباعة والحذف */}
-            <div className="flex flex-col justify-center">
-              <button
-                onClick={() => handleSave(false)}
-                className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
-              >
-                <FaSave /> حفظ
-              </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => handleSave(false)}
+            className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
+          >
+            <FaSave /> حفظ
+          </button>
           <button
             onClick={() => handleSave(true)}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-colors"
@@ -523,14 +524,15 @@ const NewSalesInvoice = () => {
           >
             <FaTrash /> حذف الفاتورة
           </button>
-            </div>
-          </div>
-        
+        </div>
+      </div>
+      </div>
+
       {/* معاينة الطباعة */}
       {showPrintPreview && (
         <InvoicePrint
           invoiceData={{
-            formData: { 
+            formData: {
               customerId: formData.customerId,
               date: formData.date,
               paymentType: formData.paymentType,
