@@ -379,7 +379,7 @@ const NewSalesInvoice = () => {
     } catch (error) {
       // عرض رسالة الخطأ الفعلية للمستخدم
       showError(error.message || 'حدث خطأ في حفظ الفاتورة');
-      console.error('خطأ في حفظ فاتورة المبيعات:', error);
+     
     }
   };
   
