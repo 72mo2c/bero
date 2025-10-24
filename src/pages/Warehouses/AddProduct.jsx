@@ -237,7 +237,8 @@ const AddProduct = () => {
               <button
                 onClick={() => {
                   setShowSuccessModal(false);
-                  navigate('/warehouses/manage-products');
+                  // توجيه المستخدم إلى صفحة عرض البضائع
+                  window.location.href = '/warehouses/products';
                 }}
                 className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors font-semibold"
               >
