@@ -271,30 +271,7 @@ const NewSalesInvoice = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
 
-      {/* العنوان */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">فاتورة مبيعات جديدة</h1>
-        <div className="flex gap-2">
-          <button
-            onClick={() => handleSave(false)}
-            className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
-          >
-            <FaSave /> حفظ
-          </button>
-          <button
-            onClick={() => handleSave(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-colors"
-          >
-            <FaPrint /> حفظ وطباعة
-          </button>
-          <button
-            onClick={resetForm}
-            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-semibold transition-colors"
-          >
-            <FaTrash /> حذف الفاتورة
-          </button>
-        </div>
-      </div>
+     
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         {/* معلومات الرأس */}
