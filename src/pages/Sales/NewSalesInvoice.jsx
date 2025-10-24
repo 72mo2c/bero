@@ -21,7 +21,7 @@ const NewSalesInvoice = () => {
     date: new Date().toISOString().split('T')[0],
     time: new Date().toTimeString().slice(0, 5),
     paymentType: 'cash',
-    agentType: 'none',
+    agentType: 'main',
     notes: ''
   });
 
@@ -242,7 +242,7 @@ const NewSalesInvoice = () => {
       date: new Date().toISOString().split('T')[0],
       time: new Date().toTimeString().slice(0, 5),
       paymentType: 'cash',
-      agentType: 'none',
+      agentType: 'main',
       notes: ''
     });
     setItems([{
@@ -319,6 +319,7 @@ const NewSalesInvoice = () => {
               onChange={(e) => setFormData({ ...formData, agentType: e.target.value })}
               className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
+              <option value="main">اختر الوكيل</option>
               <option value="none">بدون</option>
               <option value="invoice">فاتورة</option>
               <option value="carton">كرتونة</option>
@@ -451,7 +452,7 @@ const NewSalesInvoice = () => {
 
                   {/* الإجمالي */}
                   <td className="px-3 py-2 text-center font-bold text-green-600">
-                    {calculateLineTotal(item).toFixed(2)} د.ع
+                    {calculateLineTotal(item).toFixed(2)} ج.م
                   </td>
 
                   {/* حذف */}
@@ -472,7 +473,7 @@ const NewSalesInvoice = () => {
         </div>
 
         {/* زر إضافة منتج */}
-        <div className="px-4 py-3 bg-gray-50 border-t">
+        <div className="px-4 py-3 bg-gray-50 border-t z-0">
           <button
             type="button"
             onClick={addNewItem}
@@ -485,7 +486,7 @@ const NewSalesInvoice = () => {
         <div className="p-4 bg-gray-50 border-t">
           <div className="flex justify-between items-center max-w-md ml-auto">
             <div className="text-lg font-bold text-gray-800">الإجمالي الكلي:</div>
-            <div className="text-2xl font-bold text-green-600">{calculateGrandTotal().toFixed(2)} د.ع</div>
+            <div className="text-2xl font-bold text-green-600">{calculateGrandTotal().toFixed(2)} ج.م</div>
           </div>
         </div>
 
