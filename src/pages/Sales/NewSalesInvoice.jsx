@@ -275,7 +275,6 @@ const NewSalesInvoice = () => {
         <div className="grid grid-cols-5 gap-3 p-4 bg-gray-50 border-b">
           {/* العميل */}
           <div className="relative">
-            <label className="block text-xs font-medium text-gray-700 mb-1">العميل *</label>
             <input
               ref={customerInputRef}
               type="text"
@@ -302,7 +301,6 @@ const NewSalesInvoice = () => {
 
           {/* نوع الفاتورة */}
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">نوع الفاتورة *</label>
             <select
               value={formData.paymentType}
               onChange={(e) => setFormData({ ...formData, paymentType: e.target.value })}
@@ -316,7 +314,6 @@ const NewSalesInvoice = () => {
 
           {/* الوكيل */}
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">الوكيل *</label>
             <select
               value={formData.agentType}
               onChange={(e) => setFormData({ ...formData, agentType: e.target.value })}
@@ -330,9 +327,9 @@ const NewSalesInvoice = () => {
 
           {/* التاريخ */}
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">التاريخ *</label>
             <input
               type="date"
+              placeholder='التاريخ'
               value={formData.date}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
               className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -341,9 +338,8 @@ const NewSalesInvoice = () => {
 
           {/* الوقت */}
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">الوقت *</label>
             <input
-              
+              placeholder='الوقت'
               type="time"
               value={formData.time}
               onChange={(e) => setFormData({ ...formData, time: e.target.value })}
@@ -500,7 +496,7 @@ const NewSalesInvoice = () => {
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
             rows="2"
-            className="flex px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-2 py-1 border border-gray-300 rounded text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="أدخل ملاحظات إضافية..."
           />
           <div className="flex gap-2">
