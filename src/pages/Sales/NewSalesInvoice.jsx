@@ -654,28 +654,28 @@ const NewSalesInvoice = () => {
 
         {/* الجزء السفلي */}
         <div className="mt-4 pt-4 border-t">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 items-start">
             {/* ملاحظات */}
-            <div className="h-full">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">ملاحظات</label>
               <textarea
                 name="notes"
                 value={formData.notes}
                 onChange={handleChange}
-                rows="3"
-                className="w-full h-24 px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 resize-none"
+                rows="2"
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 placeholder="أدخل ملاحظات إضافية..."
               />
             </div>
 
-            {/* المجموع - بنفس حجم قسم الملاحظات */}
-            <div className="h-full flex flex-col">
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 h-24 p-4 rounded-lg border-2 border-blue-300 shadow-md flex flex-col justify-center">
+            {/* المجموع - تم تصغيره وتحسينه */}
+            <div className="flex flex-col justify-center">
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-base font-bold text-gray-700">المجموع الكلي:</span>
-                  <span className="text-xl font-bold text-blue-700">{calculateTotal().toFixed(2)} د.ع</span>
+                  <span className="text-sm font-semibold text-gray-700">المجموع الكلي:</span>
+                  <span className="text-lg font-bold text-blue-700">{calculateTotal().toFixed(2)} د.ع</span>
                 </div>
-                <div className="text-xs text-gray-600 text-right">
+                <div className="text-xs text-gray-500 text-center">
                   عدد المنتجات: {items.length}
                 </div>
               </div>
