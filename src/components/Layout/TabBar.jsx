@@ -4,10 +4,16 @@
 
 import React from 'react';
 import { FaTimes, FaPlus } from 'react-icons/fa';
+import { useAuth } from '../../context/AuthContext';
 import { useTab } from '../../contexts/TabContext';
 
 const TabBar = () => {
   const { tabs, activeTabId, closeTab, switchTab, openNewTab } = useTab();
+  const { logout } = useAuth();
+   const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <div className="h-9 flex items-center gap-2 px-3 overflow-x-auto scrollbar-thin scrollbar-thumb-orange-400 scrollbar-track-transparent">
@@ -75,6 +81,13 @@ const TabBar = () => {
           );
         })}
       </div>
+      {/* زر تسجيل الخروج */}
+      <button
+        onClick={handleLogout}
+        className="w-full text-right px-3 py-2 text-xs text-red-600 hover:bg-red-50 flex items-center gap-2 transition-all"
+      >
+        <FaSignOutAlt size={13} className="font-bold" />
+        </button>
           {/* زر تبويب جديد */}
       <button
         onClick={openNewTab}
@@ -83,6 +96,7 @@ const TabBar = () => {
       >
         <FaPlus size={13} className="font-bold" />
       </button>
+      
         
     </div>
   );
