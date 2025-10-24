@@ -24,7 +24,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="h-[84px] fixed top-0 left-0 right-0 z-50 bg-white shadow-md transition-all">
+      <header className="h-[48px] fixed top-0 left-0 right-0 z-50 bg-white shadow-md transition-all">
         {/* Tab Bar - شريط التبويبات */}
         <div className="border-t border-orange-200/50 bg-gradient-to-b from-orange-50/50 to-white">
           <TabBar />
