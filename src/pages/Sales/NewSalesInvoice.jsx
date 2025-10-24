@@ -491,20 +491,18 @@ const NewSalesInvoice = () => {
         </div>
 
                {/* الجزء السفلي */}
-        <div className="mt-4 pt-4 border-t">
-          <div className="grid grid-cols-2 gap-4">
+        
             {/* ملاحظات */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">ملاحظات</label>
-              <textarea
-                name="notes"
-                value={formData.notes}
-                onChange={handleChange}
-                rows="2"
-                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                placeholder="أدخل ملاحظات إضافية..."
-              />
-            </div>
+        <div className="p-4 border-t">
+          <label className="block text-sm font-medium text-gray-700 mb-2">ملاحظات</label>
+          <textarea
+            value={formData.notes}
+            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+            rows="2"
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="أدخل ملاحظات إضافية..."
+          />
+        </div>
             {/* أزرار الحفظ والطباعة والحذف */}
             <div className="flex flex-col justify-center">
               <button
@@ -527,8 +525,7 @@ const NewSalesInvoice = () => {
           </button>
             </div>
           </div>
-        </div>
-      </div>
+        
       {/* معاينة الطباعة */}
       {showPrintPreview && (
         <InvoicePrint
