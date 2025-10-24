@@ -231,7 +231,6 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
           onClick={closeSidebar}
         />
       )}
-
       {/* Sidebar */}
       <aside
         onMouseEnter={() => setIsHovered(true)}
