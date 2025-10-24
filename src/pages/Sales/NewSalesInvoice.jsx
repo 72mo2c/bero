@@ -491,12 +491,12 @@ const NewSalesInvoice = () => {
         </div>
 
         {/* ملاحظات */}
-        <div className="p-4 border-t">
+        <div className="relative" style={{ width: '25%' }}>
           <textarea
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
             rows="2"
-            className="w-full px-2 py-1 border border-gray-300 rounded text-center focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="أدخل ملاحظات إضافية..."
           />
           <div className="flex gap-2">
