@@ -680,10 +680,24 @@ const NewSalesInvoice = () => {
           + إضافة منتج جديد (Enter)
         </button>
 
-        {/* الجزء السفلي */}
+        {/* الجزء السفلي - تم إصلاح التخطيط هنا */}
         <div className="mt-4 pt-4 border-t">
+          {/* الصف الأول: المجموع الكلي فقط */}
+          <div className="mb-4">
+            <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-5 rounded-lg border-2 border-blue-300 shadow-md">
+              <div className="flex justify-between items-center">
+                <span className="text-base font-bold text-gray-700">المجموع الكلي:</span>
+                <span className="text-xl font-bold text-blue-700">{calculateTotal().toFixed(2)} د.ع</span>
+              </div>
+              <div className="text-xs text-gray-600 mt-2 text-right">
+                عدد المنتجات: {items.length}
+              </div>
+            </div>
+          </div>
+
+          {/* الصف الثاني: الملاحظات والأزرار */}
           <div className="grid grid-cols-2 gap-4">
-            {/* ملاحظات */}
+            {/* الملاحظات */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">ملاحظات</label>
               <textarea
@@ -696,16 +710,23 @@ const NewSalesInvoice = () => {
               />
             </div>
 
-            {/* المجموع */}
-            <div className="flex flex-col justify-center">
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border-2 border-blue-300 shadow-md">
-                <div className="flex justify-between items-center">
-                  <span className="text-base font-bold text-gray-700">المجموع الكلي:</span>
-                  <span className="text-xl font-bold text-blue-700">{calculateTotal().toFixed(2)} د.ع</span>
-                </div>
-                <div className="text-xs text-gray-600 mt-2 text-right">
-                  عدد المنتجات: {items.length}
-                </div>
+            {/* الأزرار */}
+            <div className="flex flex-col justify-end gap-2">
+              <div className="flex gap-2 justify-end">
+                <button
+                  type="button"
+                  onClick={(e) => handleSubmit(e, false)}
+                  className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors flex-1 justify-center"
+                >
+                  <FaSave /> حفظ
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => handleSubmit(e, true)}
+                  className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex-1 justify-center"
+                >
+                  <FaPrint /> حفظ وطباعة
+                </button>
               </div>
             </div>
           </div>
