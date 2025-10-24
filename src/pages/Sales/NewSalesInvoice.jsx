@@ -490,17 +490,25 @@ const NewSalesInvoice = () => {
           </div>
         </div>
 
-        {/* ملاحظات */}
-        <div className="relative" style={{ width: '25%' }}>
-          <textarea
-            value={formData.notes}
-            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-            rows="2"
-            className="w-full px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="أدخل ملاحظات إضافية..."
-          />
-          <div className="flex gap-2">
-          <button
+               {/* الجزء السفلي */}
+        <div className="mt-4 pt-4 border-t">
+          <div className="grid grid-cols-2 gap-4">
+            {/* ملاحظات */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">ملاحظات</label>
+              <textarea
+                name="notes"
+                value={formData.notes}
+                onChange={handleChange}
+                rows="2"
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                placeholder="أدخل ملاحظات إضافية..."
+              />
+            </div>
+
+            {/* المجموع */}
+            <div className="flex flex-col justify-center">
+              <button
             onClick={() => handleSave(false)}
             className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
           >
@@ -518,7 +526,8 @@ const NewSalesInvoice = () => {
           >
             <FaTrash /> حذف الفاتورة
           </button>
-        </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -526,7 +535,7 @@ const NewSalesInvoice = () => {
       {showPrintPreview && (
         <InvoicePrint
           invoiceData={{
-            formData: {
+            formData: { 
               customerId: formData.customerId,
               date: formData.date,
               paymentType: formData.paymentType,
