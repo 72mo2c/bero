@@ -75,69 +75,6 @@ const TabBar = () => {
           );
         })}
       </div>
-        {/* زر الحساب */}
-      {/* Right Actions */}
-        <div className="flex items-center gap-1">
-          
-          {/* Notifications */}
-          <button
-            onClick={() => navigate('/notifications')}
-            className="relative p-2 text-gray-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-all"
-            title="الإشعارات"
-          >
-            <FaBell size={14} />
-            {unreadCount > 0 && (
-              <span className="absolute -top-0.5 -left-0.5 bg-red-500 text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center shadow">
-                {unreadCount > 9 ? '9+' : unreadCount}
-              </span>
-            )}
-          </button>
-
-          {/* User Menu */}
-          <div className="relative">
-            <button
-              onClick={() => setShowUserMenu(!showUserMenu)}
-              className="flex items-center gap-1.5 p-1.5 pr-2 hover:bg-orange-50 rounded-lg transition-all"
-              title={user?.name}
-            >
-              <div className="w-6 h-6 bg-gradient-to-br from-orange-400 to-orange-600 rounded-lg flex items-center justify-center text-white shadow-sm">
-                <FaUser size={11} />
-              </div>
-              <span className="hidden md:block text-xs font-semibold text-gray-700 max-w-[100px] truncate">
-                {user?.name?.split(' ')[0] || 'المستخدم'}
-              </span>
-            </button>
-
-            {/* Dropdown */}
-            {showUserMenu && (
-              <>
-                <div className="fixed inset-0 z-40" onClick={() => setShowUserMenu(false)} />
-                <div className="absolute left-0 mt-1 w-48 bg-white rounded-xl shadow-xl border border-orange-100 py-1 z-50">
-                  <div className="px-3 py-2 border-b border-orange-100 bg-gradient-to-r from-orange-50 to-white">
-                    <p className="text-xs font-bold text-gray-900 truncate">{user?.name}</p>
-                    <p className="text-[10px] text-gray-500 mt-0.5 truncate">{user?.email}</p>
-                  </div>
-                  <button
-                    onClick={() => {
-                      navigate('/settings/profile');
-                      setShowUserMenu(false);
-                    }}
-                    className="w-full text-right px-3 py-2 text-xs text-gray-700 hover:bg-orange-50 flex items-center gap-2 transition-all"
-                  >
-                    <FaUser className="text-orange-500" size={12} />
-                    <span>الملف الشخصي</span>
-                  </button>
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-right px-3 py-2 text-xs text-red-600 hover:bg-red-50 flex items-center gap-2 transition-all"
-                  >
-                    <FaSignOutAlt size={12} />
-                    <span>تسجيل الخروج</span>
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
           {/* زر تبويب جديد */}
       <button
         onClick={openNewTab}
@@ -146,7 +83,7 @@ const TabBar = () => {
       >
         <FaPlus size={13} className="font-bold" />
       </button>
-        </div>
+        
     </div>
   );
 };
