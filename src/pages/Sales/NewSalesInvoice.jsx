@@ -505,15 +505,14 @@ const NewSalesInvoice = () => {
                 placeholder="أدخل ملاحظات إضافية..."
               />
             </div>
-
-            {/* المجموع */}
+            {/* أزرار الحفظ والطباعة والحذف */}
             <div className="flex flex-col justify-center">
               <button
-            onClick={() => handleSave(false)}
-            className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
-          >
-            <FaSave /> حفظ
-          </button>
+                onClick={() => handleSave(false)}
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
+              >
+                <FaSave /> حفظ
+              </button>
           <button
             onClick={() => handleSave(true)}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-colors"
