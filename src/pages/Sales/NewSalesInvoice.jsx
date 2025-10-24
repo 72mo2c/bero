@@ -670,7 +670,7 @@ const NewSalesInvoice = () => {
 
             {/* المجموع  */}
             <div className="flex flex-col justify-center">
-              <div className="bg-blue-50 p-2 rounded-lg border border-blue-200">
+              <div className="bg-blue-50 p-1 rounded-lg border border-blue-200">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-semibold text-gray-700">المجموع الكلي:</span>
                   <span className="text-lg font-bold text-blue-700">{calculateTotal().toFixed(2)} د.ع</span>
@@ -683,7 +683,7 @@ const NewSalesInvoice = () => {
           </div>
         </div>
 
-        {/* الأزرار - تم نقلها إلى الأسفل */}
+        {/* الأزرار  */}
         <div className="mt-6 pt-4 border-t">
           <div className="flex justify-center gap-3">
             <button
