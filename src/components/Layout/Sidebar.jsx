@@ -239,7 +239,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
         className={`
           fixed z-40 transition-all duration-300 overflow-hidden
           bg-white/95 backdrop-blur-md border-l border-orange-100/50 shadow-lg
-          top-[84px] h-[calc(100vh-84px)]
+          top-[40px] h-[calc(100vh-40px)]
           ${isExpanded ? 'w-56' : 'w-14'}
           ${isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}
         `}
