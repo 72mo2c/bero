@@ -395,43 +395,41 @@ const NewSalesInvoice = () => {
             <tbody>
               {items.map((item, index) => (
                 <tr key={index} className="border-b hover:bg-gray-50">
-                  {/* المنتج */}
-                                    <td className="px-2 py-2 static">
-                                      <div className="relative z-[10]">
-                                        <input
-                                          ref={(el) => (productInputRefs.current[index] = el)}
-                                          type="text"
-                                          value={productSearches[index] || ''}
-                                          onChange={(e) => handleProductSearch(index, e.target.value)}
-                                          onBlur={() => handleProductBlur(index)}
-                                          className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                                          placeholder="ابحث عن المنتج..."
-                                        />
-                                        <FaSearch className="absolute left-2 top-2.5 text-gray-400 text-xs" />
-                                      </div>
-                                      {showProductSuggestions[index] && productSearches[index]?.trim().length > 0 && getFilteredProducts(index).length > 0 && (
-                                        <div className="absolute z-[9999] left-0 w-full mt-1 bg-white border-2 border-blue-400 rounded-lg shadow-2xl max-h-64 overflow-y-auto">
-                                          {getFilteredProducts(index).map((product) => {
-                                            const warehouse = warehouses.find(w => w.id === product.warehouseId);
-                                            return (
-                                              <div
-                                                key={product.id}
-                                                onClick={() => selectProduct(index, product)}
-                                                className="px-4 py-2.5 hover:bg-blue-100 cursor-pointer border-b last:border-b-0 transition-colors"
-                                              >
-                                                <div className="flex justify-between items-center">
-                                                  <div className="flex-1">
-                                                    <span className="font-semibold text-sm text-gray-800">{product.name}</span>
-                                                    <span className="text-xs text-gray-600 mr-2">({warehouse?.name || 'غير محدد'} - {product.category})</span>
-                                                  </div>
-                                                  <span className="text-xs font-bold text-green-700 bg-green-100 px-2 py-1 rounded">الكمية: {product.mainQuantity || 0}</span>
-                                                </div>
-                                              </div>
-                                            );
-                                          })}
-                                        </div>
-                                      )}
-                                    </td>
+                  {/* اسم المنتج */}
+                  <td className="px-3 py-2 relative">
+                    <div className="relative z-[10]">
+                    <input
+                      ref={el => productInputRefs.current[index] = el}
+                      type="text"
+                      value={item.productName}
+                      onChange={(e) => handleProductSearch(index, e.target.value)}
+                      onKeyDown={(e) => handleProductKeyDown(e, index)}
+                      className="w-full px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="ابحث عن منتج..."
+                      autoComplete="off"
+                    />
+                    <FaSearch className="absolute left-2 top-2.5 text-gray-400 text-xs" />
+                    </div>
+                    {showProductSuggestions === index && productSuggestions.length > 0 && (
+                      <div className="absolute z-[9999] left-0 w-full mt-1 bg-white border-2 border-blue-400 rounded-lg shadow-2xl max-h-64 overflow-y-auto">
+                        {productSuggestions.map(product => {
+                          const warehouse = warehouses.find(w => w.id === product.warehouseId);
+                          return (
+                            <div
+                              key={product.id}
+                              onClick={() => selectProduct(index, product)}
+                              className="px-3 py-2 hover:bg-blue-50 cursor-pointer"
+                            >
+                              <div className="font-medium">{product.name}</div>
+                              <div className="text-xs text-gray-500">
+                                {warehouse?.name} - متوفر: {product.mainQuantity || 0}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                </td>
 
                   {/* الكمية الأساسية */}
                   <td className="px-3 py-2">
