@@ -501,11 +501,11 @@ const NewSalesInvoice = () => {
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
             rows="2"
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full gap-2 px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="أدخل ملاحظات إضافية..."
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2" style={{marginLeft: 10}}>
           <button
             onClick={() => handleSave(false)}
             className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
