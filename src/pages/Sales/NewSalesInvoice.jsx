@@ -237,14 +237,6 @@ const NewSalesInvoice = () => {
       );
     }
     
-    if (availableQty - requestedQty < 5 && availableQty - requestedQty > 0) {
-      return (
-        <div className="mt-1 p-2 bg-yellow-50 border border-yellow-200 rounded text-yellow-700 text-xs">
-          ⚡ المخزون المتبقي: {availableQty - requestedQty}
-        </div>
-      );
-    }
-    
     return null;
   };
 
@@ -368,7 +360,7 @@ const NewSalesInvoice = () => {
       };
 
       const newInvoice = addSalesInvoice(invoiceData);
-      showSuccess(`تم حفظ فاتورة المبيعات بنجاح! الإجمالي: ${calculateTotal().toFixed(2)} د.ع`);
+      showSuccess(`تم حفظ فاتورة المبيعات بنجاح! الإجمالي: ${calculateTotal().toFixed(2)} ج.م`);
 
       if (shouldPrint) {
         // الطباعة المباشرة
@@ -672,7 +664,7 @@ const NewSalesInvoice = () => {
               <div className="bg-blue-50 p-1 rounded-lg border border-blue-200">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-semibold text-gray-700">المجموع الكلي:</span>
-                  <span className="text-lg font-bold text-blue-700">{calculateTotal().toFixed(2)} د.ع</span>
+                  <span className="text-lg font-bold text-blue-700">{calculateTotal().toFixed(2)} ج.م</span>
                 </div>
                 <div className="text-xs text-gray-500 text-center">
                   عدد المنتجات: {items.length}

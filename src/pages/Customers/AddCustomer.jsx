@@ -105,7 +105,7 @@ const AddCustomer = () => {
               name="area"
               value={formData.area}
               onChange={handleChange}
-              placeholder="مثال: بغداد، البصرة..."
+              placeholder="مثال: مصر ,القاهرة..."
             />
 
             <Input
@@ -113,7 +113,7 @@ const AddCustomer = () => {
               name="phone1"
               value={formData.phone1}
               onChange={handleChange}
-              placeholder="+964 XXX XXX XXXX"
+              placeholder="+20 XXX XXX XXXX"
               required
             />
 
@@ -122,29 +122,9 @@ const AddCustomer = () => {
               name="phone2"
               value={formData.phone2}
               onChange={handleChange}
-              placeholder="+964 XXX XXX XXXX"
+              placeholder="+20 XXX XXX XXXX"
             />
 
-            <Input
-              label="البريد الإلكتروني (اختياري)"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="example@email.com"
-            />
-          </div>
-
-          <div>
-            <label className="label">ملاحظات (اختياري)</label>
-            <textarea
-              name="notes"
-              value={formData.notes}
-              onChange={handleChange}
-              rows="3"
-              className="input-field"
-              placeholder="أدخل ملاحظات..."
-            />
           </div>
 
           <div className="flex gap-4">
