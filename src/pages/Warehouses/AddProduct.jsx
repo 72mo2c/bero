@@ -240,7 +240,7 @@ const AddProduct = () => {
                 onClick={() => {
                   setShowSuccessModal(false);
                   // توجيه المستخدم إلى صفحة عرض البضائع
-                  navigate('/warehouses/products');
+                  navigate('/warehouses/manage-products');
                 }}
                 className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors font-semibold"
               >
