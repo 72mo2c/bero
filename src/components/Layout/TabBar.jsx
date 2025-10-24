@@ -4,12 +4,14 @@
 
 import React from 'react';
 import { FaTimes, FaPlus } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTab } from '../../contexts/TabContext';
 
 const TabBar = () => {
   const { tabs, activeTabId, closeTab, switchTab, openNewTab } = useTab();
   const { logout } = useAuth();
+  const navigate = useNavigate();
    const handleLogout = () => {
     logout();
     navigate('/login');
