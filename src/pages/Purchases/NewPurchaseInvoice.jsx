@@ -591,7 +591,6 @@ const NewPurchaseInvoice = () => {
           <div className="grid grid-cols-2 gap-4 items-start">
             {/* ملاحظات */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">ملاحظات</label>
               <textarea
                 name="notes"
                 value={formData.notes}
@@ -602,9 +601,9 @@ const NewPurchaseInvoice = () => {
               />
             </div>
 
-            {/* المجموع - تم تصغيره وتحسينه */}
+            {/* المجموع */}
             <div className="flex flex-col justify-center">
-              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+              <div className="bg-blue-50 p-1 rounded-lg border border-blue-200">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm font-semibold text-gray-700">المجموع الكلي:</span>
                   <span className="text-lg font-bold text-blue-700">{calculateTotal().toFixed(2)} ج.م</span>
