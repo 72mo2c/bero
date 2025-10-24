@@ -529,7 +529,6 @@ const NewSalesInvoice = () => {
           </div>
         </div>
       </div>
-
       {/* معاينة الطباعة */}
       {showPrintPreview && (
         <InvoicePrint
