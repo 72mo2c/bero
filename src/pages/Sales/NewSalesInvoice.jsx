@@ -375,7 +375,6 @@ const NewSalesInvoice = () => {
           warehouses
         }, 'sales');
       }
-
       resetForm();
     } catch (error) {
       // عرض رسالة الخطأ الفعلية للمستخدم
