@@ -329,40 +329,7 @@ const ManageProducts = () => {
           </button>
         </div>
       )}
-
-      <div className="flex flex-wrap gap-2 items-center">
-        {canViewInventory && (
-          <div className="bg-green-500 rounded-lg p-3 text-white shadow">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-green-100 text-sm font-medium">القيمة الإجمالية</p>
-                <h3 className="text-2xl font-bold mt-1">{formatCurrency(stats.totalValue)}</h3>
-              </div>
-              <FaMoneyBillWave className="text-3xl opacity-80" />
-            </div>
-          </div>
-        )}
-
-        <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-lg p-4 text-white shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs opacity-90">مخزون منخفض</p>
-              <h3 className="text-2xl font-bold mt-1">{stats.lowStock}</h3>
-            </div>
-            <FaChartBar className="text-3xl opacity-80" />
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-4 text-white shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs opacity-90">عدد الفئات</p>
-              <h3 className="text-2xl font-bold mt-1">{stats.categoriesCount}</h3>
-            </div>
-            <FaTags className="text-3xl opacity-80" />
-          </div>
-        </div>
-      </div>
+          
 
       {/* البحث والفلترة */}
       <div className="bg-white rounded-lg shadow-md p-4">
