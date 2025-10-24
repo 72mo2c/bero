@@ -16,7 +16,7 @@ const NewPurchaseInvoice = () => {
     supplierId: '',
     date: new Date().toISOString().split('T')[0],
     time: new Date().toTimeString().slice(0, 5),
-    paymentType: 'cash',
+    paymentType: 'main',
     notes: ''
   });
 
@@ -345,7 +345,7 @@ const NewPurchaseInvoice = () => {
       supplierId: '',
       date: new Date().toISOString().split('T')[0],
       time: new Date().toTimeString().slice(0, 5),
-      paymentType: 'cash',
+      paymentType: 'main',
       notes: ''
     });
     setItems([{ 
@@ -372,7 +372,6 @@ const NewPurchaseInvoice = () => {
     <div className="max-w-7xl mx-auto p-4">
       {/* الأزرار العلوية */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold text-gray-800">فاتورة مشتريات جديدة</h2>
         <div className="flex gap-2">
           <button
             type="button"
@@ -405,10 +404,10 @@ const NewPurchaseInvoice = () => {
         <div className="grid grid-cols-4 gap-3 mb-4 pb-4 border-b">
           {/* المورد */}
           <div className="relative">
-            <label className="block text-xs font-medium text-gray-700 mb-1">المورد</label>
             <div className="relative">
               <input
                 ref={supplierInputRef}
+                
                 type="text"
                 value={supplierSearch}
                 onChange={(e) => handleSupplierSearch(e.target.value)}
@@ -438,13 +437,13 @@ const NewPurchaseInvoice = () => {
 
           {/* نوع الفاتورة */}
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">نوع الفاتورة</label>
             <select
               name="paymentType"
               value={formData.paymentType}
               onChange={handleChange}
               className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
             >
+              <option value="main">اختر نوع الفاتورة</option>
               <option value="cash">نقدي</option>
               <option value="deferred">آجل</option>
               <option value="partial">جزئي</option>
@@ -453,7 +452,6 @@ const NewPurchaseInvoice = () => {
 
           {/* التاريخ */}
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">التاريخ</label>
             <input
               type="date"
               name="date"
@@ -465,7 +463,6 @@ const NewPurchaseInvoice = () => {
 
           {/* الوقت */}
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">الوقت</label>
             <input
               type="time"
               name="time"
