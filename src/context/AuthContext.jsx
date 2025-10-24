@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
         };
         users = [defaultUser];
         localStorage.setItem('bero_system_users', JSON.stringify(users));
-        console.log('تم إنشاء المستخدم الافتراضي');
+        
       }
 
       // البحث عن المستخدم
