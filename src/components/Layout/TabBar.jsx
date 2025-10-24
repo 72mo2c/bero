@@ -3,7 +3,7 @@
 // ======================================
 
 import React from 'react';
-import { FaTimes, FaPlus } from 'react-icons/fa';
+import { FaTimes, FaPlus, FaSignOutAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTab } from '../../contexts/TabContext';
