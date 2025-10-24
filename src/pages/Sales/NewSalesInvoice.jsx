@@ -522,7 +522,6 @@ const NewSalesInvoice = () => {
 
         {/* ملاحظات */}
         <div className="p-4 border-t">
-          <label className="block text-sm font-medium text-gray-700 mb-2">ملاحظات</label>
           <textarea
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
@@ -530,6 +529,26 @@ const NewSalesInvoice = () => {
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="أدخل ملاحظات إضافية..."
           />
+          <div className="flex gap-2">
+          <button
+            onClick={() => handleSave(false)}
+            className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-semibold transition-colors"
+          >
+            <FaSave /> حفظ
+          </button>
+          <button
+            onClick={() => handleSave(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold transition-colors"
+          >
+            <FaPrint /> حفظ وطباعة
+          </button>
+          <button
+            onClick={resetForm}
+            className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-semibold transition-colors"
+          >
+            <FaTrash /> حذف الفاتورة
+          </button>
+        </div>
         </div>
       </div>
 
