@@ -372,30 +372,7 @@ const NewPurchaseInvoice = () => {
     <div className="max-w-7xl mx-auto p-4">
       {/* الأزرار العلوية */}
       <div className="flex justify-between items-center mb-4">
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={resetForm}
-            className="flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors"
-            title="إعادة تعيين الفاتورة بالكامل"
-          >
-            <FaTrash /> إعادة تعيين
-          </button>
-          <button
-            type="button"
-            onClick={(e) => handleSubmit(e, false)}
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
-          >
-            <FaSave /> حفظ
-          </button>
-          <button
-            type="button"
-            onClick={(e) => handleSubmit(e, true)}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-          >
-            <FaPrint /> حفظ وطباعة
-          </button>
-        </div>
+        
       </div>
 
       {/* البطاقة الرئيسية */}
@@ -617,6 +594,18 @@ const NewPurchaseInvoice = () => {
 
         {/* الجزء السفلي */}
         <div className="mt-4 pt-4 border-t">
+          {/* المجموع */}
+            <div className=" w-full flex-col justify-center">
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border-2 border-blue-300 shadow-md">
+                <div className=" justify-between items-center">
+                  <span className="text-base font-bold text-gray-700">المجموع الكلي:</span>
+                  <span className="text-xl font-bold text-blue-700">{calculateTotal().toFixed(2)} ج.م</span>
+                </div>
+                <div className="text-xs text-gray-600 mt-2 text-right">
+                  عدد المنتجات: {items.length}
+                </div>
+              </div>
+            </div>
           <div className="grid grid-cols-2 gap-4">
             {/* ملاحظات */}
             <div>
@@ -630,19 +619,31 @@ const NewPurchaseInvoice = () => {
                 placeholder="أدخل ملاحظات إضافية..."
               />
             </div>
-
-            {/* المجموع */}
-            <div className="flex flex-col justify-center">
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-5 rounded-lg border-2 border-blue-300 shadow-md">
-                <div className="flex justify-between items-center">
-                  <span className="text-base font-bold text-gray-700">المجموع الكلي:</span>
-                  <span className="text-xl font-bold text-blue-700">{calculateTotal().toFixed(2)} د.ع</span>
-                </div>
-                <div className="text-xs text-gray-600 mt-2 text-right">
-                  عدد المنتجات: {items.length}
-                </div>
-              </div>
-            </div>
+            {/* الأزرار */}
+            <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={resetForm}
+            className="flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors"
+            title="إعادة تعيين الفاتورة بالكامل"
+          >
+            <FaTrash /> إعادة تعيين
+          </button>
+          <button
+            type="button"
+            onClick={(e) => handleSubmit(e, false)}
+            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            <FaSave /> حفظ
+          </button>
+          <button
+            type="button"
+            onClick={(e) => handleSubmit(e, true)}
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            <FaPrint /> حفظ وطباعة
+          </button>
+        </div>
           </div>
         </div>
 

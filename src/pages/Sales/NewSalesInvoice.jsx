@@ -698,7 +698,7 @@ const NewSalesInvoice = () => {
 
             {/* المجموع */}
             <div className="flex flex-col justify-center">
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-5 rounded-lg border-2 border-blue-300 shadow-md">
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border-2 border-blue-300 shadow-md">
                 <div className="flex justify-between items-center">
                   <span className="text-base font-bold text-gray-700">المجموع الكلي:</span>
                   <span className="text-xl font-bold text-blue-700">{calculateTotal().toFixed(2)} د.ع</span>
