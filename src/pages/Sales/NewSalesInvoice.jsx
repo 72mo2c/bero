@@ -657,7 +657,6 @@ const NewSalesInvoice = () => {
           <div className="grid grid-cols-2 gap-4 items-start">
             {/* ملاحظات */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">ملاحظات</label>
               <textarea
                 name="notes"
                 value={formData.notes}
