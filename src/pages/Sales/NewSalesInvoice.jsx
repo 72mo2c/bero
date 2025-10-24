@@ -270,9 +270,6 @@ const NewSalesInvoice = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-4">
-
-     
-
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         {/* معلومات الرأس */}
         <div className="grid grid-cols-5 gap-3 p-4 bg-gray-50 border-b">
@@ -503,7 +500,7 @@ const NewSalesInvoice = () => {
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
             rows="2"
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="flex px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="أدخل ملاحظات إضافية..."
           />
           <div className="flex gap-2">
