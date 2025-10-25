@@ -98,19 +98,19 @@ const AddCustomer = () => {
               required
             />
 
-            <Select
-              label="الوكيل / المندوب"
-              name="agentType"
-              value={formData.agentType}
-              onChange={handleChange}
+            <select 
+              name="agentType" 
+              id="agentType" 
+              value={formData.agentType} 
+              onChange={handleChange} 
               required
-              options={[
-                { value: '', label: 'اختر نوع الوكيل / المندوب' },
-                { value: 'general', label: 'عام' },
-                { value: 'fatora', label: 'فاتورة' },
-                { value: 'kartona', label: 'كرتونة' },
-              ]}
-            />
+              className='input-field'
+              >
+              <option value="">اختر نوع الوكيل / المندوب</option>
+              <option value="general">عام</option>
+              <option value="fatora">فاتورة</option>
+              <option value="kartona">كرتونة</option>
+            </select>
             <Input
               label="النطاق"
               name="area"

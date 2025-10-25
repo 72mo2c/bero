@@ -50,7 +50,7 @@ const ManageCustomers = () => {
       area: customer.area || '',
       phone1: customer.phone1 || '',
       phone2: customer.phone2 || '',
-      email: customer.email || ''
+      agentType: customer.agentType || '',
     });
     setEditModal(true);
   };
@@ -155,19 +155,12 @@ const ManageCustomers = () => {
           <Input label="النطاق" name="area" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })} />
           <Input label="الهاتف 1" name="phone1" value={formData.phone1} onChange={(e) => setFormData({ ...formData, phone1: e.target.value })} />
           <Input label="الهاتف 2" name="phone2" value={formData.phone2} onChange={(e) => setFormData({ ...formData, phone2: e.target.value })} />
-          <Select
-              label="الوكيل / المندوب"
-              name="agentType"
-              value={formData.agentType}
-              onChange={(e) => setFormData({ ...formData, agentType: e.target.value })}
-              required
-              options={[
-                { value: '', label: 'اختر نوع الوكيل / المندوب' },
-                { value: 'general', label: 'عام' },
-                { value: 'fatora', label: 'فاتورة' },
-                { value: 'kartona', label: 'كرتونة' },
-              ]}
-            />
+          <select name="agentType" id="agentType" className='input-field' value={formData.agentType} onChange={(e) => setFormData({ ...formData, agentType: e.target.value })} >
+              <option value="">اختر نوع الوكيل / المندوب</option>
+              <option value="general">عام</option>
+              <option value="fatora">فاتورة</option>
+              <option value="kartona">كرتونة</option>
+            </select>
         </form>
       </Modal>
 
