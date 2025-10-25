@@ -1,11 +1,12 @@
+
 // ======================================
-// New Sales Invoice - فاتورة مبيعات جديدة (مُحدَّث ليشبه المشتريات)
+// New Sales Invoice - فاتورة مبيعات جديدة (مُحدَّث ليشمل الخصم)
 // ======================================
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useData } from '../../context/DataContext';
 import { useNotification } from '../../context/NotificationContext';
-import { FaSave, FaPrint, FaSearch, FaTrash } from 'react-icons/fa';
+import { FaSave, FaPrint, FaSearch, FaTrash, FaPercent } from 'react-icons/fa';
 import { printInvoiceDirectly } from '../../utils/printUtils';
 
 const NewSalesInvoice = () => {
@@ -18,7 +19,9 @@ const NewSalesInvoice = () => {
     time: new Date().toTimeString().slice(0, 5),
     paymentType: 'main',
     agentType: 'main',
-    notes: ''
+    notes: '',
+    discountType: 'percentage', // 'percentage' or 'fixed'
+    discountValue: 0
   });
 
   const [items, setItems] = useState([{
@@ -246,8 +249,25 @@ const NewSalesInvoice = () => {
     return mainTotal + subTotal;
   };
 
-  const calculateTotal = () => {
+  const calculateSubTotal = () => {
     return items.reduce((sum, item) => sum + calculateItemTotal(item), 0);
+  };
+
+  // حساب قيمة الخصم
+  const calculateDiscountAmount = () => {
+    const subTotal = calculateSubTotal();
+    if (formData.discountType === 'percentage') {
+      return (subTotal * (formData.discountValue / 100));
+    } else {
+      return parseFloat(formData.discountValue) || 0;
+    }
+  };
+
+  // حساب الإجمالي بعد الخصم
+  const calculateTotal = () => {
+    const subTotal = calculateSubTotal();
+    const discountAmount = calculateDiscountAmount();
+    return Math.max(0, subTotal - discountAmount);
   };
 
   // التحقق الشامل من البيانات
@@ -262,6 +282,20 @@ const NewSalesInvoice = () => {
     // التحقق من التاريخ
     if (!formData.date) {
       errors.date = 'يجب إدخال تاريخ الفاتورة';
+    }
+    
+    // التحقق من الخصم
+    if (formData.discountValue < 0) {
+      errors.discount = 'قيمة الخصم لا يمكن أن تكون سالبة';
+    }
+    
+    if (formData.discountType === 'percentage' && formData.discountValue > 100) {
+      errors.discount = 'نسبة الخصم لا يمكن أن تزيد عن 100%';
+    }
+    
+    const discountAmount = calculateDiscountAmount();
+    if (discountAmount > calculateSubTotal()) {
+      errors.discount = 'قيمة الخصم لا يمكن أن تزيد عن المجموع الكلي';
     }
     
     // التحقق من المنتجات
@@ -351,10 +385,14 @@ const NewSalesInvoice = () => {
         price: item.mainQuantity > 0 ? item.mainPrice : item.subPrice
       }));
 
+      const discountAmount = calculateDiscountAmount();
+      
       const invoiceData = {
         ...formData,
         date: `${formData.date}T${formData.time}:00`,
         items: convertedItems,
+        subtotal: calculateSubTotal(),
+        discountAmount: discountAmount,
         total: calculateTotal(),
         status: 'completed'
       };
@@ -368,6 +406,8 @@ const NewSalesInvoice = () => {
         printInvoiceDirectly({
           formData: newInvoice,
           items: newInvoice.items,
+          subtotal: newInvoice.subtotal,
+          discountAmount: newInvoice.discountAmount,
           total: newInvoice.total,
           customer,
           customers,
@@ -389,7 +429,9 @@ const NewSalesInvoice = () => {
       time: new Date().toTimeString().slice(0, 5),
       paymentType: 'main',
       agentType: 'main',
-      notes: ''
+      notes: '',
+      discountType: 'percentage',
+      discountValue: 0
     });
     setItems([{ 
       productId: '', 
@@ -644,9 +686,9 @@ const NewSalesInvoice = () => {
 
         {/* الجزء السفلي */}
         <div className="mt-4 pt-4 border-t">
-          <div className="grid grid-cols-2 gap-4 items-start">
+          <div className="grid grid-cols-3 gap-4 items-start">
             {/* ملاحظات */}
-            <div>
+            <div className="col-span-2">
               <textarea
                 name="notes"
                 value={formData.notes}
@@ -657,14 +699,63 @@ const NewSalesInvoice = () => {
               />
             </div>
 
-            {/* المجموع  */}
-            <div className="flex flex-col justify-center">
-              <div className="bg-blue-50 p-1 rounded-lg border border-blue-200">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-semibold text-gray-700">المجموع الكلي:</span>
-                  <span className="text-lg font-bold text-blue-700">{calculateTotal().toFixed(2)} ج.م</span>
+            {/* الخصم والمجموع */}
+            <div className="space-y-3">
+              {/* قسم الخصم */}
+              <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaPercent className="text-yellow-600" />
+                  <span className="text-sm font-semibold text-gray-700">الخصم</span>
                 </div>
-                <div className="text-xs text-gray-500 text-center">
+                <div className="grid grid-cols-2 gap-2 mb-2">
+                  <select
+                    name="discountType"
+                    value={formData.discountType}
+                    onChange={handleChange}
+                    className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="percentage">نسبة مئوية %</option>
+                    <option value="fixed">مبلغ ثابت</option>
+                  </select>
+                  <input
+                    type="number"
+                    name="discountValue"
+                    value={formData.discountValue}
+                    onChange={handleChange}
+                    className="w-full px-2 py-1.5 text-sm text-center border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                    min="0"
+                    step={formData.discountType === 'percentage' ? '0.1' : '0.01'}
+                    placeholder={formData.discountType === 'percentage' ? '0.0%' : '0.00'}
+                  />
+                </div>
+                {formData.discountValue > 0 && (
+                  <div className="text-xs text-gray-600 text-center">
+                    قيمة الخصم: {calculateDiscountAmount().toFixed(2)} ج.م
+                  </div>
+                )}
+              </div>
+
+              {/* المجموع */}
+              <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-semibold text-gray-700">المجموع الفرعي:</span>
+                    <span className="text-sm font-medium text-gray-600">{calculateSubTotal().toFixed(2)} ج.م</span>
+                  </div>
+                  
+                  {formData.discountValue > 0 && (
+                    <div className="flex justify-between items-center pt-1 border-t border-blue-200">
+                      <span className="text-sm font-semibold text-gray-700">الخصم:</span>
+                      <span className="text-sm font-medium text-red-600">-{calculateDiscountAmount().toFixed(2)} ج.م</span>
+                    </div>
+                  )}
+                  
+                  <div className="flex justify-between items-center pt-2 border-t border-blue-200">
+                    <span className="text-sm font-semibold text-gray-700">المجموع الكلي:</span>
+                    <span className="text-lg font-bold text-blue-700">{calculateTotal().toFixed(2)} ج.م</span>
+                  </div>
+                </div>
+                <div className="text-xs text-gray-500 text-center mt-2">
                   عدد المنتجات: {items.length}
                 </div>
               </div>
@@ -672,7 +763,7 @@ const NewSalesInvoice = () => {
           </div>
         </div>
 
-        {/* الأزرار  */}
+        {/* الأزرار */}
         <div className="mt-6 pt-4 border-t">
           <div className="flex justify-center gap-3">
             <button
