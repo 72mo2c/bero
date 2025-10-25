@@ -24,8 +24,7 @@ const AddCustomer = () => {
     area: '',
     phone1: '',
     phone2: '',
-    email: '',
-    notes: ''
+    agentType: ''
   });
 
   const resetForm = () => {
@@ -35,8 +34,7 @@ const AddCustomer = () => {
       area: '',
       phone1: '',
       phone2: '',
-      email: '',
-      notes: ''
+      agentType: ''
     });
   };
 
@@ -99,6 +97,21 @@ const AddCustomer = () => {
               placeholder="أدخل العنوان"
               required
             />
+
+            <Input
+              label="نوع الوكيل / المندوب"
+              list="agent-types"
+              name="agentType"
+              value={formData.agentType}
+              onChange={handleChange}
+              placeholder="مثال: وكيل ,مندوب..."
+              required
+            />
+            <datalist id="agent-types">
+              <option value="عام" />
+              <option value="فاتورة" />
+              <option value="كرتونة" />
+            </datalist>
 
             <Input
               label="النطاق"
