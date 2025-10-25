@@ -29,7 +29,8 @@ const NewPurchaseInvoice = () => {
     quantity: 1,
     subQuantity: 0,
     price: 0,
-    subPrice: 0
+    subPrice: 0,
+    discount: 0
   }]);
 
   // البحث في الموردين والمنتجات
@@ -43,6 +44,7 @@ const NewPurchaseInvoice = () => {
   const [productErrors, setProductErrors] = useState([false]);
   const [quantityErrors, setQuantityErrors] = useState([false]);
   const [priceErrors, setPriceErrors] = useState([false]);
+  const [discountErrors, setDiscountErrors] = useState([false]);
   const [validationErrors, setValidationErrors] = useState({});
 
   // مراجع للتركيز التلقائي
@@ -127,7 +129,8 @@ const NewPurchaseInvoice = () => {
       productId: product.id,
       productName: product.name,
       price: parseFloat(product.mainPrice) || 0,
-      subPrice: parseFloat(product.subPrice) || 0
+      subPrice: parseFloat(product.subPrice) || 0,
+      discount: 0
     };
     setItems(newItems);
 
@@ -165,14 +168,8 @@ const NewPurchaseInvoice = () => {
     const newItems = [...items];
     newItems[index][field] = value;
     setItems(newItems);
-    //الخصم
-    if (field === 'discount') {
-      const newDiscountErrors = [...newDiscountErrors];
-      newDiscountErrors[index] = value < 0;
-      newDiscountErrors(newDiscountErrors);
-    }
     
-    // التحقق الفوري من الكميات والأسعار
+    // التحقق الفوري من الكميات والأسعار والخصم
     if (field === 'quantity' || field === 'subQuantity') {
       const newQuantityErrors = [...quantityErrors];
       if (field === 'quantity') {
@@ -188,6 +185,12 @@ const NewPurchaseInvoice = () => {
       }
       setPriceErrors(newPriceErrors);
     }
+
+    if (field === 'discount') {
+      const newDiscountErrors = [...discountErrors];
+      newDiscountErrors[index] = value < 0;
+      setDiscountErrors(newDiscountErrors);
+    }
   };
 
   const addItem = () => {
@@ -197,13 +200,15 @@ const NewPurchaseInvoice = () => {
       quantity: 1, 
       subQuantity: 0,
       price: 0,
-      subPrice: 0
+      subPrice: 0,
+      discount: 0
     }]);
     setProductSearches([...productSearches, '']);
     setShowProductSuggestions([...showProductSuggestions, false]);
     setProductErrors([...productErrors, false]);
     setQuantityErrors([...quantityErrors, false]);
     setPriceErrors([...priceErrors, false]);
+    setDiscountErrors([...discountErrors, false]);
 
     // التركيز على حقل المنتج الجديد
     setTimeout(() => {
@@ -220,13 +225,22 @@ const NewPurchaseInvoice = () => {
       setProductErrors(productErrors.filter((_, i) => i !== index));
       setQuantityErrors(quantityErrors.filter((_, i) => i !== index));
       setPriceErrors(priceErrors.filter((_, i) => i !== index));
+      setDiscountErrors(discountErrors.filter((_, i) => i !== index));
     }
   };
 
-  const calculateItemTotal = (item) => {
+  // حساب الإجمالي قبل خصم العنصر
+  const calculateItemTotalWithoutDiscount = (item) => {
     const mainTotal = (item.quantity || 0) * (item.price || 0);
     const subTotal = (item.subQuantity || 0) * (item.subPrice || 0);
     return mainTotal + subTotal;
+  };
+
+  // حساب إجمالي العنصر بعد الخصم
+  const calculateItemTotal = (item) => {
+    const totalWithoutDiscount = calculateItemTotalWithoutDiscount(item);
+    const itemDiscount = item.discount || 0;
+    return Math.max(0, totalWithoutDiscount - itemDiscount);
   };
 
   const calculateSubTotal = () => {
@@ -281,6 +295,7 @@ const NewPurchaseInvoice = () => {
     // التحقق من المنتجات
     const newQuantityErrors = [];
     const newPriceErrors = [];
+    const newDiscountErrors = [];
     
     items.forEach((item, index) => {
       // التحقق من اختيار المنتج
@@ -316,10 +331,22 @@ const NewPurchaseInvoice = () => {
       } else if (item.subPrice === 0 && item.subQuantity > 0) {
         errors[`subPrice_${index}`] = 'يجب إدخال سعر فرعي عند وجود كمية فرعية';
       }
+
+      // التحقق من خصم العنصر
+      if (item.discount < 0) {
+        errors[`discount_${index}`] = 'خصم العنصر لا يمكن أن يكون سالباً';
+        newDiscountErrors[index] = true;
+      } else if (item.discount > calculateItemTotalWithoutDiscount(item)) {
+        errors[`discount_${index}`] = 'خصم العنصر لا يمكن أن يزيد عن إجماليه';
+        newDiscountErrors[index] = true;
+      } else {
+        newDiscountErrors[index] = false;
+      }
     });
     
     setQuantityErrors(newQuantityErrors);
     setPriceErrors(newPriceErrors);
+    setDiscountErrors(newDiscountErrors);
     setValidationErrors(errors);
     
     // التحقق من المجموع الكلي
@@ -402,7 +429,8 @@ const NewPurchaseInvoice = () => {
       quantity: 1, 
       subQuantity: 0,
       price: 0,
-      subPrice: 0
+      subPrice: 0,
+      discount: 0
     }]);
     setSupplierSearch('');
     setProductSearches(['']);
@@ -412,6 +440,7 @@ const NewPurchaseInvoice = () => {
     setProductErrors([false]);
     setQuantityErrors([false]);
     setPriceErrors([false]);
+    setDiscountErrors([false]);
     setValidationErrors({});
     supplierInputRef.current?.focus();
   };
@@ -608,7 +637,7 @@ const NewPurchaseInvoice = () => {
                       value={item.discount}
                       onChange={(e) => handleItemChange(index, 'discount', parseFloat(e.target.value) || 0)}
                       className={`w-full px-2 py-1.5 text-sm text-center border rounded-md focus:ring-2 focus:ring-blue-500 ${
-                        validationErrors[`discount-${index}`] ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                        discountErrors[index] ? 'border-red-500 bg-red-50' : 'border-gray-300'
                       }`}
                       min="0"
                     />
