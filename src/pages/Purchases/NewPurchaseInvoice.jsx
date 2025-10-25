@@ -165,6 +165,12 @@ const NewPurchaseInvoice = () => {
     const newItems = [...items];
     newItems[index][field] = value;
     setItems(newItems);
+    //الخصم
+    if (field === 'discount') {
+      const newDiscountErrors = [...newDiscountErrors];
+      newDiscountErrors[index] = value < 0;
+      newDiscountErrors(newDiscountErrors);
+    }
     
     // التحقق الفوري من الكميات والأسعار
     if (field === 'quantity' || field === 'subQuantity') {
@@ -590,6 +596,19 @@ const NewPurchaseInvoice = () => {
                       value={item.subPrice}
                       onChange={(e) => handleItemChange(index, 'subPrice', parseFloat(e.target.value) || 0)}
                       className="w-full px-2 py-1.5 text-sm text-center border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                      min="0"
+                    />
+                  </td>
+                  {/* الخصم  */}
+                  <td className="px-2 py-2">
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={item.discount}
+                      onChange={(e) => handleItemChange(index, 'discount', parseFloat(e.target.value) || 0)}
+                      className={`w-full px-2 py-1.5 text-sm text-center border rounded-md focus:ring-2 focus:ring-blue-500 ${
+                        validationErrors[`discount-${index}`] ? 'border-red-500 bg-red-50' : 'border-gray-300'
+                      }`}
                       min="0"
                     />
                   </td>
