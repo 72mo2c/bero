@@ -35,7 +35,7 @@ const ManageCustomers = () => {
     area: '',
     phone1: '',
     phone2: '',
-    email: ''
+    agentType: '',
   });
 
   const handleEdit = (customer) => {
