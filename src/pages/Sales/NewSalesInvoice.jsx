@@ -1,5 +1,5 @@
 // ======================================
-// New Sales Invoice - فاتورة مبيعات جديدة
+// New Sales Invoice - فاتورة مبيعات جديدة (مُحدَّث ليشمل الخصم وتحديد الوكيل تلقائياً)
 // ======================================
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -65,7 +65,7 @@ const NewSalesInvoice = () => {
         e.preventDefault();
         handleSubmit(e);
       }
-      // Enter لإضافة صف جديد 
+      // Enter لإضافة صف جديد (عند التركيز في حقل الكمية الأخير)
       if (e.key === 'Enter' && e.target.name?.startsWith('mainQuantity-')) {
         const index = parseInt(e.target.name.split('-')[1]);
         if (index === items.length - 1) {
@@ -85,8 +85,28 @@ const NewSalesInvoice = () => {
       'general': 'عام',
       'fatora': 'فاتورة', 
       'kartona': 'كرتونة',
+      'main': 'رئيسي',
+      'none': 'بدون',
+      'invoice': 'فاتورة',
+      'carton': 'كرتونة'
     };
     return agentTypes[agentType] || agentType;
+  };
+
+  // دالة لتحديد الوكيل تلقائياً بناءً على العميل
+  const getAutoAgentType = (customer) => {
+    if (!customer.agentType) return 'main';
+    
+    // تحويل أنواع الوكلاء من بيانات العميل إلى أنواع متوافقة مع الفاتورة
+    const agentMapping = {
+      'general': 'general',
+      'fatora': 'invoice',
+      'kartona': 'carton',
+      'invoice': 'invoice',
+      'carton': 'carton'
+    };
+    
+    return agentMapping[customer.agentType] || 'main';
   };
 
   const handleChange = (e) => {
@@ -104,10 +124,12 @@ const NewSalesInvoice = () => {
   };
 
   const selectCustomer = (customer) => {
+    const autoAgentType = getAutoAgentType(customer);
+    
     setFormData({ 
       ...formData, 
       customerId: customer.id,
-      agentType: customer.agentType || 'main' // تحديث الوكيل تلقائياً بناءً على بيانات العميل
+      agentType: autoAgentType // تحديث الوكيل تلقائياً بناءً على بيانات العميل
     });
     setCustomerSearch(customer.name);
     setShowCustomerSuggestions(false);
@@ -576,9 +598,15 @@ const NewSalesInvoice = () => {
               <option value="main">اختر وكيل</option>
               <option value="none">بدون</option>
               <option value="general">عام</option>
-              <option value="fatora">فاتورة</option>
-              <option value="kartona">كرتونة</option>
+              <option value="invoice">فاتورة</option>
+              <option value="carton">كرتونة</option>
             </select>
+            {/* عرض مؤشر أن الوكيل تم تعيينه تلقائياً */}
+            {formData.customerId && formData.agentType !== 'main' && (
+              <div className="text-xs text-green-600 mt-1 text-center">
+                ✓ تم التعيين تلقائياً: {getAgentTypeLabel(formData.agentType)}
+              </div>
+            )}
           </div>
 
           {/* التاريخ والوقت */}
