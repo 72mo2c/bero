@@ -1,5 +1,5 @@
 // ======================================
-// New Sales Invoice - فاتورة مبيعات جديدة (مُحدَّث ليشمل الخصم وتحديد الوكيل تلقائياً)
+// New Sales Invoice - فاتورة مبيعات جديدة (مُحدَّث ليشمل الخصم)
 // ======================================
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -79,36 +79,6 @@ const NewSalesInvoice = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [items]);
 
-  // دالة مساعدة لتحويل قيمة الوكيل إلى نص مقروء
-  const getAgentTypeLabel = (agentType) => {
-    const agentTypes = {
-      'general': 'عام',
-      'fatora': 'فاتورة', 
-      'kartona': 'كرتونة',
-      'main': 'رئيسي',
-      'none': 'بدون',
-      'invoice': 'فاتورة',
-      'carton': 'كرتونة'
-    };
-    return agentTypes[agentType] || agentType;
-  };
-
-  // دالة لتحديد الوكيل تلقائياً بناءً على العميل
-  const getAutoAgentType = (customer) => {
-    if (!customer.agentType) return 'main';
-    
-    // تحويل أنواع الوكلاء من بيانات العميل إلى أنواع متوافقة مع الفاتورة
-    const agentMapping = {
-      'general': 'general',
-      'fatora': 'invoice',
-      'kartona': 'carton',
-      'invoice': 'invoice',
-      'carton': 'carton'
-    };
-    
-    return agentMapping[customer.agentType] || 'main';
-  };
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -124,12 +94,10 @@ const NewSalesInvoice = () => {
   };
 
   const selectCustomer = (customer) => {
-    const autoAgentType = getAutoAgentType(customer);
-    
     setFormData({ 
       ...formData, 
       customerId: customer.id,
-      agentType: autoAgentType // تحديث الوكيل تلقائياً بناءً على بيانات العميل
+      agentType: customer.agentType || 'main' // تحديد الوكيل تلقائياً من بيانات العميل
     });
     setCustomerSearch(customer.name);
     setShowCustomerSuggestions(false);
@@ -560,12 +528,6 @@ const NewSalesInvoice = () => {
                       <span className="font-semibold text-sm text-gray-800">{customer.name}</span>
                       <span className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">{customer.phone}</span>
                     </div>
-                    {/* إظهار نوع الوكيل إذا كان موجوداً */}
-                    {customer.agentType && (
-                      <div className="text-xs text-green-600 mt-1">
-                        الوكيل: {getAgentTypeLabel(customer.agentType)}
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
@@ -597,16 +559,9 @@ const NewSalesInvoice = () => {
             >
               <option value="main">اختر وكيل</option>
               <option value="none">بدون</option>
-              <option value="general">عام</option>
               <option value="invoice">فاتورة</option>
               <option value="carton">كرتونة</option>
             </select>
-            {/* عرض مؤشر أن الوكيل تم تعيينه تلقائياً */}
-            {formData.customerId && formData.agentType !== 'main' && (
-              <div className="text-xs text-green-600 mt-1 text-center">
-                ✓ تم التعيين تلقائياً: {getAgentTypeLabel(formData.agentType)}
-              </div>
-            )}
           </div>
 
           {/* التاريخ والوقت */}
