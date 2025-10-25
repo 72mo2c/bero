@@ -1,5 +1,5 @@
 // ======================================
-// New Sales Invoice - فاتورة مبيعات جديدة (مُحدَّث ليشمل الخصم وتحديد الوكيل تلقائياً)
+// New Sales Invoice - فاتورة مبيعات جديدة
 // ======================================
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -65,7 +65,7 @@ const NewSalesInvoice = () => {
         e.preventDefault();
         handleSubmit(e);
       }
-      // Enter لإضافة صف جديد (عند التركيز في حقل الكمية الأخير)
+      // Enter لإضافة صف جديد 
       if (e.key === 'Enter' && e.target.name?.startsWith('mainQuantity-')) {
         const index = parseInt(e.target.name.split('-')[1]);
         if (index === items.length - 1) {
@@ -85,10 +85,6 @@ const NewSalesInvoice = () => {
       'general': 'عام',
       'fatora': 'فاتورة', 
       'kartona': 'كرتونة',
-      'main': 'رئيسي',
-      'none': 'بدون',
-      'invoice': 'فاتورة',
-      'carton': 'كرتونة'
     };
     return agentTypes[agentType] || agentType;
   };
@@ -582,15 +578,7 @@ const NewSalesInvoice = () => {
               <option value="general">عام</option>
               <option value="fatora">فاتورة</option>
               <option value="kartona">كرتونة</option>
-              <option value="invoice">فاتورة</option>
-              <option value="carton">كرتونة</option>
             </select>
-            {/* عرض مؤشر أن الوكيل تم تعيينه تلقائياً */}
-            {formData.customerId && formData.agentType !== 'main' && (
-              <div className="text-xs text-green-600 mt-1 text-center">
-                ✓ تم التعيين تلقائياً من بيانات العميل
-              </div>
-            )}
           </div>
 
           {/* التاريخ والوقت */}
