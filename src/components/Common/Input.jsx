@@ -3,6 +3,32 @@
 // ======================================
 
 import React from 'react';
+const Select = ({ 
+  label,
+  name,
+  value,
+  onChange,
+  options = [],
+}) => {
+  return (
+    <div className="form-group">
+      {label && <label htmlFor={name} className="label">{label}</label>}
+      <select
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+        className="input-field"
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
 
 const Input = ({
   label,
