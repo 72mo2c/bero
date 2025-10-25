@@ -18,7 +18,7 @@ const Select = ({
         name={name}
         value={value}
         onChange={onChange}
-        className="input-field"
+        className="input-field p-0"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
