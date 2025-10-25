@@ -8,6 +8,7 @@ import { useData } from '../../context/DataContext';
 import { useNotification } from '../../context/NotificationContext';
 import Card from '../../components/Common/Card';
 import Input from '../../components/Common/Input';
+import { Select } from '../../components/Common/Input';
 import Button from '../../components/Common/Button';
 import { FaUserPlus, FaSave, FaCheckCircle, FaPlus, FaList } from 'react-icons/fa';
 
@@ -108,6 +109,7 @@ const AddCustomer = () => {
                 { value: 'fatora', label: 'فاتورة' },
                 { value: 'kartona', label: 'كرتونة' },
               ]}
+              required
             />
             <Input
               label="النطاق"

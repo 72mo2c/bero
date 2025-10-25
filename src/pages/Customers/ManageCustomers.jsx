@@ -10,7 +10,8 @@ import { useAuth } from '../../context/AuthContext';
 import Card from '../../components/Common/Card';
 import Table from '../../components/Common/Table';
 import Modal from '../../components/Common/Modal';
-import Input, { Select } from '../../components/Common/Input';
+import Input from '../../components/Common/Input';
+import { Select } from '../../components/Common/Input';
 import Button from '../../components/Common/Button';
 import { FaUsers, FaExclamationTriangle, FaTimes, FaEdit, FaTrash } from 'react-icons/fa';
 
