@@ -793,7 +793,7 @@ const NewSalesInvoice = () => {
               </div>
 
               {/* المجموع */}
-              <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
+              <div className="w-full bg-blue-50 p-3 rounded-lg border border-blue-200">
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-semibold text-gray-700">المجموع الفرعي:</span>
