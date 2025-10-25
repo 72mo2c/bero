@@ -503,6 +503,7 @@ const NewPurchaseInvoice = () => {
                 <th className="px-2 py-2 text-center text-xs font-semibold text-gray-700 w-20">كمية فرعية</th>
                 <th className="px-2 py-2 text-center text-xs font-semibold text-gray-700 w-24">سعر أساسي</th>
                 <th className="px-2 py-2 text-center text-xs font-semibold text-gray-700 w-24">سعر فرعي</th>
+                <th className="px-2 py-2 text-center text-xs font-semibold text-gray-700 w-24">الخصم</th>
                 <th className="px-2 py-2 text-center text-xs font-semibold text-gray-700 w-24">الإجمالي</th>
                 <th className="px-2 py-2 text-center text-xs font-semibold text-gray-700 w-16">حذف</th>
               </tr>
